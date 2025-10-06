@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Arc Cat — Котофабрика</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="catalog.html">Каталог</a>
+          <a class="app-header__link" href="boxes.html">Боксы</a>
+          <a class="app-header__link" href="orders.html">Заказы</a>
+          <a class="app-header__link" href="community.html">Витрины</a>
+        </nav>
+        <div class="app-header__actions">
+          <label class="search-bar" aria-label="Поиск по товарам">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M9.333 15.667a6.333 6.333 0 1 0 0-12.667 6.333 6.333 0 0 0 0 12.667Zm5.334-1.334 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
+            <input type="search" placeholder="Поиск" />
+          </label>
+          <a class="secondary-btn" href="builder.html">Конструктор</a>
+          <a class="ghost-btn" href="favorites.html" aria-label="Избранное">❤️</a>
+          <a class="ghost-btn" href="cart.html" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="profile.html" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container split-layout">
+        <div class="panel" style="align-self:start;">
+          <div class="product-preview">
+            <img src="images/cat-card-glow.svg" alt="Neon Arc Cat" />
+          </div>
+          <div class="product-thumbs">
+            <img src="images/cat-card-glow.svg" alt="Без эффекта" />
+            <img src="images/cat-card-crystal.svg" alt="С хвостом Crystal" />
+            <img src="images/cat-card-aurora.svg" alt="Фон Aurora" />
+          </div>
+        </div>
+        <div class="panel">
+          <span class="tag">Легендарный</span>
+          <h1 class="product-title">Neon Arc Cat</h1>
+          <p class="text-muted product-description">
+            Электрический котик, реагирующий на эмоции владельца. Сочетает в себе вспышки неоновых линий,
+            динамический хвост и уникальную эмоцию «Arc» для витрины.
+          </p>
+          <div class="product-meta">
+            <span class="price-tag">1 800 ₽</span>
+            <span class="badge">В наличии</span>
+          </div>
+          <div class="hero-actions product-actions">
+            <button class="primary-btn" type="button">Добавить в корзину</button>
+            <button class="secondary-btn" type="button">В избранное</button>
+          </div>
+          <section class="product-details">
+            <h2>Что входит</h2>
+            <ul>
+              <li>Анимированная шерсть с эффектом электрических дуг</li>
+              <li>Три эксклюзивные эмоции и анимация витрины</li>
+              <li>Доступ к сезонному событию «Комета»</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html>

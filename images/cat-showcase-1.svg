@@ -1,0 +1,24 @@
+<svg width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="showcase1" x1="40" y1="20" x2="320" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE7FB" />
+      <stop offset="1" stop-color="#CFF0FF" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="340" height="240" rx="40" fill="url(#showcase1)" stroke="#2C1D21" stroke-width="6" />
+  <g transform="translate(30,20)" stroke="#2C1D21" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M120 72 96 24c-5-10-20-10-24 0L46 96" fill="#FFF" />
+    <path d="M214 72 238 24c5-10 20-10 24 0l26 72" fill="#FFF" />
+    <path d="M120 72 96 24c-5-10-20-10-24 0L46 96" />
+    <path d="M214 72 238 24c5-10 20-10 24 0l26 72" />
+    <ellipse cx="168" cy="156" rx="92" ry="108" fill="#FFF8F4" />
+    <ellipse cx="168" cy="156" rx="92" ry="108" fill="none" />
+    <circle cx="168" cy="84" r="64" fill="#FFE8F3" />
+    <circle cx="168" cy="84" r="64" fill="none" />
+    <path d="M122 88c14-12 28-12 42 0" />
+    <path d="M172 88c14-12 28-12 42 0" />
+    <path d="M150 112c10 12 26 12 36 0" />
+    <path d="M150 132c14 18 36 18 50 0" />
+    <path d="M268 152c30-20 40-60 8-92" stroke="#9CE1FF" stroke-width="10" opacity="0.6" />
+  </g>
+</svg>

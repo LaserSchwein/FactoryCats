@@ -1,0 +1,31 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="crystal-bg" x1="40" y1="60" x2="280" y2="280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E3F6FF" />
+      <stop offset="1" stop-color="#FFFFFF" />
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="288" height="288" rx="48" fill="url(#crystal-bg)" stroke="#2C1D21" stroke-width="6" />
+  <g transform="translate(0,12)" stroke="#2C1D21" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="160" cy="210" rx="74" ry="88" fill="#E7F5FF" />
+    <circle cx="160" cy="118" r="54" fill="#F6FBFF" />
+    <path d="M124 100 108 60c-4-10-18-10-22 0l-18 44" fill="#F6FBFF" />
+    <path d="M196 100 212 60c4-10 18-10 22 0l18 44" fill="#F6FBFF" />
+    <path d="M124 100 108 60c-4-10-18-10-22 0l-18 44" />
+    <path d="M196 100 212 60c4-10 18-10 22 0l18 44" />
+    <ellipse cx="160" cy="210" rx="74" ry="88" fill="none" />
+    <circle cx="160" cy="118" r="54" fill="none" />
+    <path d="M140 134c10-10 22-10 32 0" />
+    <path d="M188 134c10-10 22-10 32 0" />
+    <path d="M150 150c6 12 20 12 26 0" />
+  </g>
+  <path
+    d="M240 212c34-26 38-74 4-108"
+    stroke="#8DD0FF"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.7"
+  />
+  <path d="M88 240 104 214l16 26 18-32 16 28" stroke="#8DD0FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
