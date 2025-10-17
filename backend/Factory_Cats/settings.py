@@ -75,11 +75,16 @@ WSGI_APPLICATION = 'Factory_Cats.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cats_factory',
+        'USER': 'catuser',
+        'PASSWORD': '1234',
+        'HOST': '127.0.0.1',
+        'PORT': '5433',
     }
 }
 
+ALLOWED_HOSTS = ['62.113.117.166']
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
