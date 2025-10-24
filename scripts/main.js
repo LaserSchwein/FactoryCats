@@ -111,9 +111,10 @@ if (builderControls) {
       mint: { body: '#body-3', pattern: null },
     },
     face: {
-      smile: { head: '#head-1', eyes: '#eyes-1', muzzle: '#muzzle-1', whiskers: '#whisk-1' },
-      dream: { head: '#head-2', eyes: '#eyes-2', muzzle: '#muzzle-2', whiskers: '#whisk-2' },
-      pixel: { head: '#head-3', eyes: '#eyes-3', muzzle: '#muzzle-1', whiskers: '#whisk-1' },
+      smile: { head: '#head-1', eyes: '#eyes-1', muzzle: '#muzzle-1', whiskers: '#whisk-1', image: null },
+      dream: { head: '#head-2', eyes: '#eyes-2', muzzle: '#muzzle-2', whiskers: '#whisk-2', image: null },
+      pixel: { head: '#head-3', eyes: '#eyes-3', muzzle: '#muzzle-1', whiskers: '#whisk-1', image: null },
+      legend: { head: null, eyes: null, muzzle: null, whiskers: null, image: 'legend' },
     },
     tail: {
       classic: '#tail-1',
@@ -131,6 +132,20 @@ if (builderControls) {
   const muzzleUse = document.getElementById('builder-muzzle');
   const whiskersUse = document.getElementById('builder-whiskers');
   const tailUse = document.getElementById('builder-tail');
+  const faceImages = new Map();
+
+  document.querySelectorAll('[data-face-image]').forEach((node) => {
+    const key = node.getAttribute('data-face-image');
+    if (key) {
+      faceImages.set(key, node);
+    }
+  });
+
+  const showFaceImage = (imageKey) => {
+    faceImages.forEach((node, key) => {
+      node.style.display = key === imageKey ? '' : 'none';
+    });
+  };
 
   const setUseHref = (element, symbolId) => {
     if (!element) return;
@@ -141,6 +156,21 @@ if (builderControls) {
       element.removeAttribute('href');
       element.style.display = 'none';
     }
+  };
+
+  const applyFaceSelection = (value) => {
+    const config = builderAssets.face[value];
+    if (!config) {
+      showFaceImage(null);
+      return;
+    }
+
+    const { head, eyes, muzzle, whiskers, image } = config;
+    setUseHref(headUse, head);
+    setUseHref(eyesUse, eyes);
+    setUseHref(muzzleUse, muzzle);
+    setUseHref(whiskersUse, whiskers);
+    showFaceImage(image ?? null);
   };
 
   builderControls.addEventListener('change', (event) => {
@@ -161,13 +191,7 @@ if (builderControls) {
         }
         break;
       case 'face':
-        if (builderAssets.face[value]) {
-          const { head, eyes, muzzle, whiskers } = builderAssets.face[value];
-          setUseHref(headUse, head);
-          setUseHref(eyesUse, eyes);
-          setUseHref(muzzleUse, muzzle);
-          setUseHref(whiskersUse, whiskers);
-        }
+        applyFaceSelection(value);
         break;
       case 'tail':
         if (builderAssets.tail[value]) {
@@ -178,4 +202,11 @@ if (builderControls) {
         break;
     }
   });
+
+  const initialFace = builderControls.querySelector('input[name="face"]:checked');
+  if (initialFace instanceof HTMLInputElement) {
+    applyFaceSelection(initialFace.value);
+  } else {
+    showFaceImage(null);
+  }
 }

@@ -387,23 +387,39 @@ body::after {
 
 .showcase-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+@media (min-width: 960px) {
+  .showcase-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .showcase-profile {
-  background: var(--panel);
+  position: relative;
+  display: grid;
+  gap: 20px;
+  padding: 28px 28px 0;
   border-radius: var(--radius-md);
   border: 3px solid var(--border-strong);
-  padding: 24px;
-  display: grid;
-  gap: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 227, 197, 0.95) 100%);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
-.showcase-profile header {
+.showcase-profile__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+}
+
+.showcase-profile__nickname {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--text);
 }
 
 .showcase-profile__gallery {
@@ -416,6 +432,17 @@ body::after {
   width: 100%;
   border-radius: 16px;
   border: 2px solid var(--border);
+}
+
+.showcase-profile__footer {
+  margin-top: auto;
+  margin-right: -28px;
+  margin-left: -28px;
+  padding: 20px 28px 28px;
+  background: rgba(116, 193, 116, 0.14);
+  border-top: 3px dashed rgba(116, 193, 116, 0.35);
+  display: flex;
+  justify-content: center;
 }
 
 .profile-layout {
@@ -625,13 +652,25 @@ body::after {
 }
 
 .order-card {
-  background: var(--panel);
+  background:linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 227, 197, 0.95) 100%);
   border-radius: var(--radius-md);
   border: 3px solid var(--border-strong);
   padding: 24px;
   display: grid;
   gap: 18px;
   box-shadow: var(--shadow-md);
+}
+
+.order-card footer {
+  margin-top: auto;
+  margin-right: -24px;
+  margin-left: -24px;
+  margin-bottom: -24px;
+  padding: 18px 24px 24px;
+  background: rgba(116, 193, 116, 0.14);
+  border-top: 3px dashed rgba(116, 193, 116, 0.35);
+  display: flex;
+  justify-content: center;
 }
 
 .order-card header {
