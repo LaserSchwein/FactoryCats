@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Каталог — Котофабрика</title>
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="../../assets/css/main.css" />
   </head>
   <body class="app">
     <header class="app-header">
@@ -12,20 +12,20 @@
         <a class="brand" href="catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
         <nav class="app-header__nav" aria-label="Основная навигация">
           <a class="app-header__link app-header__link--active" href="catalog.html">Каталог</a>
-          <a class="app-header__link" href="boxes.html">Боксы</a>
-          <a class="app-header__link" href="orders.html">Заказы</a>
-          <a class="app-header__link" href="community.html">Витрины</a>
+          <a class="app-header__link" href="../../components/boxes.html">Боксы</a>
+          <a class="app-header__link" href="../orders/orders.html">Заказы</a>
+          <a class="app-header__link" href="../community/community.html">Витрины</a>
         </nav>
         <div class="app-header__actions">
           <label class="search-bar" aria-label="Поиск по каталогу">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M9.333 15.667a6.333 6.333 0 1 0 0-12.667 6.333 6.333 0 0 0 0 12.667Zm5.334-1.334 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
             </svg>
-            <input type="search" placeholder="Поиск котиков и частей" />
+            <input type="search" placeholder="Поиск котиков" />
           </label>
-          <a class="secondary-btn" href="builder.html">Конструктор</a>
-          <a class="ghost-btn" href="cart.html" aria-label="Корзина">🛒</a>
-          <a class="ghost-btn" href="profile.html" aria-label="Профиль">👤</a>
+          <a class="secondary-btn" href="../../components/builder.html">Конструктор</a>
+          <a class="ghost-btn" href="../cart/cart.html" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="../user/profile.html" aria-label="Профиль">👤</a>
         </div>
       </div>
     </header>
@@ -41,11 +41,11 @@
               витрины. Все выбранные части автоматически подхватывает конструктор.
             </p>
             <div class="catalog-hero__actions">
-              <a class="primary-btn" href="builder.html">Открыть конструктор котиков</a>
-              <a class="secondary-btn" href="boxes.html">Посмотреть боксы</a>
+              <a class="primary-btn" href="../../components/builder.html">Открыть конструктор котиков</a>
+              <a class="secondary-btn" href="../../components/boxes.html">Посмотреть боксы</a>
             </div>
           </div>
-          <img src="images/cat-showcase-3.svg" alt="Скетч неонового котика" />
+          <img src="../../assets/images/cat-showcase-3.svg" alt="Скетч неонового котика" />
         </div>
       </section>
 
@@ -71,21 +71,11 @@
               <label><input type="checkbox" /> 500–1500 ₽</label>
               <label><input type="checkbox" checked /> 1500 ₽ и выше</label>
             </div>
-            <div class="catalog-filter">
-              <h3>Теги</h3>
-              <div class="catalog-tags">
-                <a href="#">#неон</a>
-                <a href="#">#космос</a>
-                <a href="#">#пиксели</a>
-                <a href="#">#сакура</a>
-                <a href="#">#лед</a>
-              </div>
-            </div>
           </aside>
 
           <div class="catalog-grid">
             <article class="product-card">
-              <img src="images/cat-card-aurora.svg" alt="Котик Aurora Drift" />
+              <img src="../../assets/images/cat-card-aurora.svg" alt="Котик Aurora Drift" />
               <div class="product-card__info">
                 <h3>Aurora Drift</h3>
                 <p>Голографическая шерсть и хвост-комета. В комплекте 3 уникальные эмоции.</p>
@@ -96,7 +86,7 @@
               </div>
             </article>
             <article class="product-card">
-              <img src="images/cat-card-pixel.svg" alt="Котик Pixel Riff" />
+              <img src="../../assets/images/cat-card-pixel.svg" alt="Котик Pixel Riff" />
               <div class="product-card__info">
                 <h3>Pixel Riff</h3>
                 <p>Пиксельный паттерн, светящиеся очки и чип-тюн саундтрек в комплекте.</p>
@@ -107,7 +97,7 @@
               </div>
             </article>
             <article class="product-card">
-              <img src="images/cat-card-sakura.svg" alt="Котик Sakura Bloom" />
+              <img src="../../assets/images/cat-card-sakura.svg" alt="Котик Sakura Bloom" />
               <div class="product-card__info">
                 <h3>Sakura Bloom</h3>
                 <p>Пастельная палитра и интерактивное цветение вокруг питомца.</p>
@@ -118,7 +108,7 @@
               </div>
             </article>
             <article class="product-card">
-              <img src="images/cat-card-storm.svg" alt="Котик Storm Runner" />
+              <img src="../../assets/images/cat-card-storm.svg" alt="Котик Storm Runner" />
               <div class="product-card__info">
                 <h3>Storm Runner</h3>
                 <p>Молниеносные полосы и хвост-трассер. Заряжает эмоции всей команды.</p>
@@ -129,7 +119,7 @@
               </div>
             </article>
             <article class="product-card">
-              <img src="images/cat-card-crystal.svg" alt="Котик Crystal Whisper" />
+              <img src="../../assets/images/cat-card-crystal.svg" alt="Котик Crystal Whisper" />
               <div class="product-card__info">
                 <h3>Crystal Whisper</h3>
                 <p>Полупрозрачные узоры и звенящий хвост из льдинок. Успокаивает других питомцев.</p>
@@ -140,7 +130,7 @@
               </div>
             </article>
             <article class="product-card">
-              <img src="images/cat-card-glow.svg" alt="Котик Glow Pulse" />
+              <img src="../../assets/images/cat-card-glow.svg" alt="Котик Glow Pulse" />
               <div class="product-card__info">
                 <h3>Glow Pulse</h3>
                 <p>Неоновое свечение и анимация сердцебиения по всему силуэту котика.</p>
@@ -155,6 +145,6 @@
       </section>
     </main>
 
-    <script src="scripts/main.js"></script>
+    <script src="../../assets/java/main.js"></script>
   </body>
 </html>
