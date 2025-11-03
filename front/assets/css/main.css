@@ -1128,6 +1128,10 @@ header .header-inner {
   color: var(--text);
 }
 
+.search-bar input:focus {
+  box-shadow: none;
+}
+
 .nav-actions {
   display: flex;
   align-items: center;
