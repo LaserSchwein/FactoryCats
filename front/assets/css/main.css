@@ -834,8 +834,8 @@ body::after {
 }
 
 .cat-head {
-  width: 60%;
-  bottom: 30%;
+  width: 50%;
+  bottom: 48%;
   transform: translate(-50%, 34%);
   z-index: 2;
 }
