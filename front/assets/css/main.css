@@ -816,6 +816,8 @@ body::after {
   inset: 0;
   display: grid;
   place-items: center;
+  pointer-events: none;
+  transform: translateY(4%);
 }
 
 .cat-layer {
@@ -828,13 +830,13 @@ body::after {
 
 .cat-body {
   width: 70%;
-  bottom: 7%;
+  bottom: 0;
 }
 
 .cat-head {
-  width: 54%;
-  top: 12%;
-  transform: translate(-50%, 6px);
+  width: 50%;
+  bottom: 48%;
+  transform: translate(-50%, 34%);
   z-index: 2;
 }
 

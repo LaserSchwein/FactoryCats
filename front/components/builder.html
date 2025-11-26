@@ -43,17 +43,17 @@
 
           <div class="cat-builder" aria-label="Интерактивный конструктор котика">
             <div class="cat-stage" role="img" aria-label="Визуальный предпросмотр котика">
-              <button class="arrow-btn head-arrow arrow-btn--left" type="button" onclick="prevHead()" aria-label="Предыдущая голова">
+              <button class="arrow-btn head-arrow arrow-btn--left" type="button" aria-label="Предыдущая голова">
                 &#8249;
               </button>
-              <button class="arrow-btn head-arrow arrow-btn--right" type="button" onclick="nextHead()" aria-label="Следующая голова">
+              <button class="arrow-btn head-arrow arrow-btn--right" type="button" aria-label="Следующая голова">
                 &#8250;
               </button>
 
-              <button class="arrow-btn body-arrow arrow-btn--left" type="button" onclick="prevBody()" aria-label="Предыдущее тело">
+              <button class="arrow-btn body-arrow arrow-btn--left" type="button" aria-label="Предыдущее тело">
                 &#8249;
               </button>
-              <button class="arrow-btn body-arrow arrow-btn--right" type="button" onclick="nextBody()" aria-label="Следующее тело">
+              <button class="arrow-btn body-arrow arrow-btn--right" type="button" aria-label="Следующее тело">
                 &#8250;
               </button>
 
@@ -61,13 +61,13 @@
                 <img
                   id="cat-body"
                   class="cat-layer cat-body"
-                  src="../assets/images/body-2.png"
+                  src="../assets/images/body-1.png"
                   alt="Тело котика"
                 />
                 <img
                   id="cat-head"
                   class="cat-layer cat-head"
-                  src="../assets/images/head-2.png"
+                  src="../assets/images/head-1.png"
                   alt="Голова котика"
                 />
               </div>
@@ -83,21 +83,9 @@
 
     <script src="../assets/java/main.js"></script>
     <script>
-      const heads = [
-        "../assets/images/head-2.png",
-        "../assets/images/head-1.png",
-        "../assets/images/builder-face-pixel.svg",
-        "../assets/images/builder-face-dream.svg",
-        "../assets/images/builder-face-smile.svg",
-        "../assets/images/builder-face-legend.svg",
-      ];
-      const bodies = [
-        "../assets/images/body-2.png",
-        "../assets/images/body-1.png",
-        "../assets/images/builder-body-cream.svg",
-        "../assets/images/builder-body-mint.svg",
-        "../assets/images/builder-body-violet.svg",
-      ];
+      const heads = ["../assets/images/head-1.png", "../assets/images/head-2.png", "../assets/images/head-3.png",
+       "../assets/images/head-4.png", "../assets/images/head-5.png", "../assets/images/head-6.png", "../assets/images/head-7.png" ];
+      const bodies = ["../assets/images/body-1.png", "../assets/images/body-2.png","../assets/images/body-3.png","../assets/images/body-4.png","../assets/images/body-5.png","../assets/images/body-6.png"];
 
       let headIndex = 0;
       let bodyIndex = 0;
@@ -129,6 +117,17 @@
         bodyIndex = (bodyIndex - 1 + bodies.length) % bodies.length;
         updateBody();
       }
+
+      function bindArrows() {
+        document.querySelector('.head-arrow.arrow-btn--left')?.addEventListener('click', prevHead);
+        document.querySelector('.head-arrow.arrow-btn--right')?.addEventListener('click', nextHead);
+        document.querySelector('.body-arrow.arrow-btn--left')?.addEventListener('click', prevBody);
+        document.querySelector('.body-arrow.arrow-btn--right')?.addEventListener('click', nextBody);
+      }
+
+      bindArrows();
+      updateHead();
+      updateBody();
     </script>
   </body>
 </html>
