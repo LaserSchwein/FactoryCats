@@ -32,96 +32,99 @@
 
     <main>
       <section class="section">
-        <div class="container builder-layout">
-          <div class="builder-preview">
-            <figure class="builder-stage" role="img" aria-label="Превью котика">
-              <div class="builder-stage__frame">
-                <svg class="builder-canvas" viewBox="0 0 140 160" aria-hidden="true">
-                  <g class="builder-tail" transform="translate(12,72)">
-                    <use id="builder-tail" href="images/cats-sprite.svg#tail-1" class="sketch"></use>
-                  </g>
-                  <g class="builder-body" transform="translate(8,72)">
-                    <use id="builder-body" href="images/cats-sprite.svg#body-1" class="sketch"></use>
-                    <use id="builder-pattern" href="images/cats-sprite.svg#stripes" class="sketch"></use>
-                  </g>
-                  <g class="builder-face" transform="translate(20,12)">
-                    <use id="builder-head" href="images/cats-sprite.svg#head-1" class="sketch"></use>
-                    <use id="builder-eyes" href="images/cats-sprite.svg#eyes-1" class="sketch"></use>
-                    <use id="builder-muzzle" href="images/cats-sprite.svg#muzzle-1" class="sketch"></use>
-                    <use id="builder-whiskers" href="images/cats-sprite.svg#whisk-1" class="sketch"></use>
-                    <image
-                      id="builder-face-legend"
-                      data-face-image="legend"
-                      href="images/builder-face-legend.svg"
-                      width="100"
-                      height="100"
-                      preserveAspectRatio="xMidYMid meet"
-                      style="display: none"
-                    ></image>
-                  </g>
-                </svg>
-              </div>
-            </figure>
-            <h1 class="builder-title">Соберите котика из деталей корзины</h1>
+        <div class="container builder-shell">
+          <div class="builder-intro">
+            <h1 class="builder-title">Соберите котика из любимых деталей</h1>
             <p class="builder-description text-muted">
-              Выбранные части синхронизируются с корзиной. Меняйте мордочки, хвосты и эффекты — изображение
-              котика обновится мгновенно.
+              Переключайте голову и тело стрелками, чтобы моментально увидеть новые сочетания. Навигация сверху остаётся
+              нетронутой — экспериментируйте с образами прямо здесь, без перезагрузок.
             </p>
           </div>
 
-          <form class="builder-controls" aria-label="Доступные детали из корзины">
-            <fieldset class="builder-group" data-part="body">
-              <legend>Базовое тело</legend>
-              <label>
-                <input type="radio" name="body" value="cream" checked /> Кремовый — базовый комплект
-              </label>
-              <label>
-                <input type="radio" name="body" value="violet" /> Фиолетовый — сезон «Комета»
-              </label>
-              <label>
-                <input type="radio" name="body" value="mint" /> Мятный — бокс «Crystal»
-              </label>
-            </fieldset>
+          <div class="cat-builder" aria-label="Интерактивный конструктор котика">
+            <div class="cat-stage" role="img" aria-label="Визуальный предпросмотр котика">
+              <button class="arrow-btn head-arrow arrow-btn--left" type="button" onclick="prevHead()" aria-label="Предыдущая голова">
+                &#8249;
+              </button>
+              <button class="arrow-btn head-arrow arrow-btn--right" type="button" onclick="nextHead()" aria-label="Следующая голова">
+                &#8250;
+              </button>
 
-            <fieldset class="builder-group" data-part="face">
-              <legend>Мордочки</legend>
-              <label>
-                <input type="radio" name="face" value="smile" checked /> Mint Smile из корзины
-              </label>
-              <label>
-                <input type="radio" name="face" value="dream" /> Dreamy Eyes из набора Aurora
-              </label>
-              <label>
-                <input type="radio" name="face" value="pixel" /> Pixel Wink из ретро-пака
-              </label>
-              <label>
-                <input type="radio" name="face" value="legend" /> Легендарная мордочка из архива
-              </label>
-            </fieldset>
+              <button class="arrow-btn body-arrow arrow-btn--left" type="button" onclick="prevBody()" aria-label="Предыдущее тело">
+                &#8249;
+              </button>
+              <button class="arrow-btn body-arrow arrow-btn--right" type="button" onclick="nextBody()" aria-label="Следующее тело">
+                &#8250;
+              </button>
 
-            <fieldset class="builder-group" data-part="tail">
-              <legend>Хвосты</legend>
-              <label>
-                <input type="radio" name="tail" value="classic" checked /> Crystal Tail — корзина
-              </label>
-              <label>
-                <input type="radio" name="tail" value="flare" /> Storm Flare — бокс «Гроза»
-              </label>
-              <label>
-                <input type="radio" name="tail" value="soft" /> Velvet Soft — витрина Meowcore
-              </label>
-            </fieldset>
-
-            <div class="builder-summary">
-              <h2>Итоговая сборка</h2>
-              <p class="text-muted">Все изменения сохраняются в корзине и доступны в заказах после покупки.</p>
-              <button class="primary-btn" type="submit">Сохранить пресет</button>
+              <div class="cat-canvas">
+                <img
+                  id="cat-body"
+                  class="cat-layer cat-body"
+                  src="../assets/images/builder-body-cream.svg"
+                  alt="Тело котика"
+                />
+                <img
+                  id="cat-head"
+                  class="cat-layer cat-head"
+                  src="../assets/images/builder-face-pixel.svg"
+                  alt="Голова котика"
+                />
+              </div>
             </div>
-          </form>
+
+            <div class="builder-note">
+              <p>Подбирайте сочетания, пока котик не станет идеальным. Готовые пресеты сохранятся при переходе в каталог.</p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
     <script src="../assets/java/main.js"></script>
+    <script>
+      const heads = [
+        "../assets/images/builder-face-pixel.svg",
+        "../assets/images/builder-face-dream.svg",
+        "../assets/images/builder-face-smile.svg",
+        "../assets/images/builder-face-legend.svg",
+      ];
+      const bodies = [
+        "../assets/images/builder-body-cream.svg",
+        "../assets/images/builder-body-mint.svg",
+        "../assets/images/builder-body-violet.svg",
+      ];
+
+      let headIndex = 0;
+      let bodyIndex = 0;
+
+      function updateHead() {
+        document.getElementById("cat-head").src = heads[headIndex];
+      }
+
+      function updateBody() {
+        document.getElementById("cat-body").src = bodies[bodyIndex];
+      }
+
+      function nextHead() {
+        headIndex = (headIndex + 1) % heads.length;
+        updateHead();
+      }
+
+      function prevHead() {
+        headIndex = (headIndex - 1 + heads.length) % heads.length;
+        updateHead();
+      }
+
+      function nextBody() {
+        bodyIndex = (bodyIndex + 1) % bodies.length;
+        updateBody();
+      }
+
+      function prevBody() {
+        bodyIndex = (bodyIndex - 1 + bodies.length) % bodies.length;
+        updateBody();
+      }
+    </script>
   </body>
 </html>
