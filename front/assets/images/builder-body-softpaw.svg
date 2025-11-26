@@ -1,0 +1,41 @@
+<svg width="480" height="600" viewBox="0 0 480 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bodyCream" x1="160" y1="120" x2="320" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE8CE" />
+      <stop offset="1" stop-color="#FFDCC0" />
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="none" />
+  <g stroke="#2C1D21" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="240" cy="320" rx="120" ry="180" fill="url(#bodyCream)" />
+    <ellipse cx="240" cy="330" rx="90" ry="120" fill="#FFFDF8" />
+
+    <ellipse cx="170" cy="380" rx="56" ry="62" fill="url(#bodyCream)" />
+    <ellipse cx="310" cy="380" rx="56" ry="62" fill="url(#bodyCream)" />
+
+    <ellipse cx="142" cy="300" rx="48" ry="56" fill="url(#bodyCream)" />
+    <ellipse cx="338" cy="300" rx="48" ry="56" fill="url(#bodyCream)" />
+
+    <g fill="#F598A6" stroke="none">
+      <circle cx="170" cy="416" r="12" />
+      <circle cx="150" cy="400" r="9" />
+      <circle cx="170" cy="392" r="9" />
+      <circle cx="190" cy="400" r="9" />
+
+      <circle cx="310" cy="416" r="12" />
+      <circle cx="290" cy="400" r="9" />
+      <circle cx="310" cy="392" r="9" />
+      <circle cx="330" cy="400" r="9" />
+
+      <circle cx="142" cy="328" r="8" />
+      <circle cx="126" cy="314" r="6" />
+      <circle cx="142" cy="306" r="6" />
+      <circle cx="158" cy="314" r="6" />
+
+      <circle cx="338" cy="328" r="8" />
+      <circle cx="322" cy="314" r="6" />
+      <circle cx="338" cy="306" r="6" />
+      <circle cx="354" cy="314" r="6" />
+    </g>
+  </g>
+</svg>

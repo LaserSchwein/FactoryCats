@@ -827,13 +827,14 @@ body::after {
 }
 
 .cat-body {
-  width: 68%;
-  bottom: 8%;
+  width: 70%;
+  bottom: 7%;
 }
 
 .cat-head {
-  width: 52%;
-  top: 14%;
+  width: 54%;
+  top: 12%;
+  transform: translate(-50%, 6px);
   z-index: 2;
 }
 
