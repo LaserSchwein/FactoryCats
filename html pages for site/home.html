@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Котофабрика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .cotofactory-container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            height: 600px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .cat-preview {
+            flex: 1;
+            background-color: #e9ecef;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .cat-image {
+            width: 200px;
+            height: 200px;
+            background-color: #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cotofactory-sidebar {
+            flex: 0 0 350px;
+            background-color: #fff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cotofactory-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .cotofactory-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .cotofactory-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: #dee2e6;
+            color: #333;
+        }
+
+        .cotofactory-btn:hover {
+            background-color: #ced4da;
+        }
+
+        .cotofactory-btn:first-child {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="cotofactory-container">
+    <div class="cat-preview">
+        <div>*добавить картинку кота*</div>
+    </div>
+
+    <div class="cotofactory-sidebar">
+        <h1 class="cotofactory-title">Котофабрика</h1>
+
+        <div class="cotofactory-buttons">
+            <button class="cotofactory-btn">Войти</button>
+            <button class="cotofactory-btn">Зарегистрироваться</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
