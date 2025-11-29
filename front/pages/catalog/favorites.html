@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Избранные котики — Котофабрика</title>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="catalog.html">Каталог</a>
+          <a class="app-header__link" href="../orders/orders.html">Заказы</a>
+          <a class="app-header__link" href="../community/community.html">Витрины</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="../../components/builder.html">Конструктор</a>
+          <a class="ghost-btn ghost-btn--active" href="favorites.html" aria-label="Избранное">❤️</a>
+          <a class="ghost-btn" href="../cart/cart.html" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="../user/profile.html" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <span class="tag">Избранное</span>
+        <h2>Ваши любимые котики</h2>
+        <div class="favorites-gallery">
+          <article class="favorites-card">
+            <img src="../../assets/images/cat-card-glow.svg" alt="Neon Arc Cat" />
+            <div>
+              <h3>Neon Arc Cat</h3>
+              <p class="text-muted">Легендарный скин</p>
+            </div>
+            <button class="secondary-btn" type="button">В корзину</button>
+          </article>
+          <article class="favorites-card">
+            <img src="../../assets/images/cat-card-sakura.svg" alt="Sakura Bloom" />
+            <div>
+              <h3>Sakura Bloom</h3>
+              <p class="text-muted">Весенний набор</p>
+            </div>
+            <button class="secondary-btn" type="button">В корзину</button>
+          </article>
+          <article class="favorites-card">
+            <img src="../../assets/images/cat-card-pixel.svg" alt="Retro Pixel" />
+            <div>
+              <h3>Retro Pixel</h3>
+              <p class="text-muted">Пиксельный стиль</p>
+            </div>
+            <button class="secondary-btn" type="button">В корзину</button>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <script src="../../assets/java/main.js"></script>
+  </body>
+</html>

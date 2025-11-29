@@ -1,0 +1,22 @@
+<svg width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="showcase2" x1="60" y1="30" x2="300" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF5DC" />
+      <stop offset="1" stop-color="#FFD6CF" />
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="340" height="240" rx="40" fill="url(#showcase2)" stroke="#2C1D21" stroke-width="6" />
+  <g transform="translate(32,20)" stroke="#2C1D21" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="168" cy="158" rx="92" ry="110" fill="#FFF3E4" />
+    <ellipse cx="168" cy="158" rx="92" ry="110" fill="none" />
+    <circle cx="168" cy="86" r="66" fill="#FFE4D4" />
+    <circle cx="168" cy="86" r="66" fill="none" />
+    <path d="M126 92c14-12 28-12 42 0" />
+    <path d="M172 92c14-12 28-12 42 0" />
+    <path d="M152 112c10 12 26 12 36 0" />
+    <path d="M152 134c14 16 36 16 50 0" />
+    <path d="M120 78 98 34c-5-10-18-10-22 0L56 90" />
+    <path d="M216 78 238 34c5-10 18-10 22 0l20 56" />
+  </g>
+  <path d="M90 192 110 170l20 22 18-26 18 24" stroke="#FFB4A2" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

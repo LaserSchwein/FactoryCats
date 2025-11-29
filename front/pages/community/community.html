@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Витрины сообщества — Котофабрика</title>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="../catalog/catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="../catalog/catalog.html">Каталог</a>
+          <a class="app-header__link" href="../orders/orders.html">Заказы</a>
+          <a class="app-header__link app-header__link--active" href="community.html">Витрины</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="../../components/builder.html">Конструктор</a>
+          <a class="ghost-btn" href="../cart/cart.html" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="../user/profile.html" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <h1>Публичные витрины коллекционеров</h1>
+            <p class="text-muted">
+              Изучайте оформленные витрины, подписывайтесь на любимых авторов и переносите понравившиеся
+              наборы себе в каталог.
+            </p>
+          </div>
+
+          <div class="showcase-grid">
+            <article class="showcase-profile">
+              <header class="showcase-profile__header">
+                <span class="showcase-profile__nickname">@catlena</span>
+                <span class="badge">12 работ</span>
+              </header>
+              <div class="showcase-profile__gallery">
+                <img src="../../assets/images/cat-card-glow.svg" alt="Работа Glow Pulse" />
+                <img src="../../assets/images/cat-card-pixel.svg" alt="Работа Pixel Riff" />
+                <img src="../../assets/images/cat-card-sakura.svg" alt="Работа Sakura Bloom" />
+              </div>
+              <footer class="showcase-profile__footer">
+                <button class="secondary-btn" type="button">Подписаться</button>
+              </footer>
+            </article>
+
+            <article class="showcase-profile">
+              <header class="showcase-profile__header">
+                <span class="showcase-profile__nickname">@meowcore</span>
+                <span class="badge">8 работ</span>
+              </header>
+              <div class="showcase-profile__gallery">
+                <img src="../../assets/images/cat-card-storm.svg" alt="Работа Storm Runner" />
+                <img src="../../assets/images/cat-card-crystal.svg" alt="Работа Crystal Whisper" />
+                <img src="../../assets/images/cat-card-aurora.svg" alt="Работа Aurora Drift" />
+              </div>
+              <footer class="showcase-profile__footer">
+                <button class="secondary-btn" type="button">Подписаться</button>
+              </footer>
+            </article>
+
+            <article class="showcase-profile">
+              <header class="showcase-profile__header">
+                <span class="showcase-profile__nickname">@pixelpaws</span>
+                <span class="badge">5 работ</span>
+              </header>
+              <div class="showcase-profile__gallery">
+                <img src="../../assets/images/cat-card-pixel.svg" alt="Работа Pixel Riff" />
+                <img src="../../assets/images/cat-card-glow.svg" alt="Работа Glow Pulse" />
+                <img src="../../assets/images/cat-card-storm.svg" alt="Работа Storm Runner" />
+              </div>
+              <footer class="showcase-profile__footer">
+                <button class="secondary-btn" type="button">Подписаться</button>
+              </footer>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="../../assets/java/main.js"></script>
+  </body>
+</html>

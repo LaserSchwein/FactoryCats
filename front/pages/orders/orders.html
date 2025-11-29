@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мои заказы — Котофабрика</title>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="../catalog/catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="../catalog/catalog.html">Каталог</a>
+          <a class="app-header__link app-header__link--active" href="orders.html">Заказы</a>
+          <a class="app-header__link" href="../community/community.html">Витрины</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="../../components/builder.html">Конструктор</a>
+          <a class="ghost-btn" href="../cart/cart.html" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="../user/profile.html" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <h1>История заказов</h1>
+            <p class="text-muted">Отслеживайте статус покупок и повторно скачивайте цифровых котиков.</p>
+          </div>
+
+          <div class="orders-list">
+            <article class="order-card">
+              <header>
+                <span class="order-card__id">Заказ #9471</span>
+                <span class="order-card__status order-card__status--done">Доставлено</span>
+              </header>
+              <div class="order-card__body">
+                <img src="../../assets/images/cat-card-glow.svg" alt="Neon Arc Cat" />
+                <div>
+                  <h2>Neon Arc Cat</h2>
+                  <p class="text-muted">02 октября 2025</p>
+                </div>
+                <span class="order-card__price">1 800 ₽</span>
+              </div>
+              <footer>
+                <button class="secondary-btn" type="button">Скачать котика</button>
+              </footer>
+            </article>
+
+            <article class="order-card">
+              <header>
+                <span class="order-card__id">Заказ #9458</span>
+                <span class="order-card__status order-card__status--progress">Готовится к отправке</span>
+              </header>
+              <div class="order-card__body">
+                <img src="../../assets/images/cat-card-crystal.svg" alt="Crystal Tail" />
+                <div>
+                  <h2>Crystal Tail</h2>
+                  <p class="text-muted">25 сентября 2025</p>
+                </div>
+                <span class="order-card__price">520 ₽</span>
+              </div>
+              <footer>
+                <button class="secondary-btn" type="button">Проверить статус</button>
+              </footer>
+            </article>
+
+            <article class="order-card">
+              <header>
+                <span class="order-card__id">Заказ #9433</span>
+                <span class="order-card__status order-card__status--shipped">Отправлено</span>
+              </header>
+              <div class="order-card__body">
+                <img src="../../assets/images/cat-card-aurora.svg" alt="Fireworks Bloom" />
+                <div>
+                  <h2>Fireworks Bloom</h2>
+                  <p class="text-muted">18 сентября 2025</p>
+                </div>
+                <span class="order-card__price">Событие</span>
+              </div>
+              <footer>
+                <button class="secondary-btn" type="button">Детали события</button>
+              </footer>
+            </article>
+
+            <article class="order-card">
+              <header>
+                <span class="order-card__id">Заказ #9399</span>
+                <span class="order-card__status order-card__status--done">Доставлено</span>
+              </header>
+              <div class="order-card__body">
+                <img src="../../assets/images/cat-card-pixel.svg" alt="Starter Pack" />
+                <div>
+                  <h2>Starter Pack</h2>
+                  <p class="text-muted">07 сентября 2025</p>
+                </div>
+                <span class="order-card__price">0 ₽</span>
+              </div>
+              <footer>
+                <button class="secondary-btn" type="button">Повторить заказ</button>
+              </footer>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="../../assets/java/main.js"></script>
+  </body>
+</html>

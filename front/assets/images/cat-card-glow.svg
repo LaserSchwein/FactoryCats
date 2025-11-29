@@ -1,0 +1,32 @@
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow-bg" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(160 160) scale(160)">
+      <stop stop-color="#2B1235" />
+      <stop offset="1" stop-color="#110614" />
+    </radialGradient>
+  </defs>
+  <rect x="16" y="16" width="288" height="288" rx="48" fill="url(#glow-bg)" stroke="#2C1D21" stroke-width="6" />
+  <g transform="translate(0,12)" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="160" cy="210" rx="74" ry="88" fill="#351B4A" stroke="#FF93D6" stroke-width="6" />
+    <circle cx="160" cy="118" r="54" fill="#3F1F5C" stroke="#FF93D6" stroke-width="6" />
+    <path d="M124 100 108 60c-4-10-18-10-22 0l-18 44" fill="#3F1F5C" stroke="#FF93D6" stroke-width="6" />
+    <path d="M196 100 212 60c4-10 18-10 22 0l18 44" fill="#3F1F5C" stroke="#FF93D6" stroke-width="6" />
+    <path d="M144 134c10-10 22-10 32 0" stroke="#FFE6FF" stroke-width="6" />
+    <path d="M188 134c10-10 22-10 32 0" stroke="#FFE6FF" stroke-width="6" />
+    <path d="M152 150c6 12 20 12 26 0" stroke="#FFE6FF" stroke-width="6" />
+    <path d="M150 168c12 14 28 14 40 0" stroke="#FFE6FF" stroke-width="6" />
+  </g>
+  <path
+    d="M244 210c30-22 40-68 8-100"
+    stroke="#7FFBFF"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.8"
+  />
+  <g opacity="0.3" stroke="#7FFBFF" stroke-width="8" stroke-linecap="round">
+    <path d="M70 88h24" />
+    <path d="M230 56h24" />
+    <path d="M96 276h24" />
+  </g>
+</svg>

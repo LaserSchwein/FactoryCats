@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Подтверждение почты — Котофабрика</title>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
+  </head>
+  <body class="auth">
+    <header class="auth__header">
+      <a class="brand" href="../index.html"><span class="brand-icon">🐾</span>Котофабрика</a>
+    </header>
+    <main class="auth__content">
+      <section class="auth-card">
+        <h1>Подтвердите почту</h1>
+        <p class="text-muted">
+          Мы отправили код на <strong>meow@factorycats.io</strong>. Введите цифры, чтобы продолжить настройку
+          профиля и открыть каталог.
+        </p>
+        <form class="auth-form" action="../catalog/catalog.html" method="get">
+          <div class="otp-inputs">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Первая цифра" />
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Вторая цифра" />
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Третья цифра" />
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Четвёртая цифра" />
+          </div>
+          <button class="primary-btn" type="submit">Подтвердить</button>
+        </form>
+        <p class="text-muted auth__switch">
+          Не получили письмо?
+          <a href="#">Отправить повторно</a>
+        </p>
+      </section>
+      <aside class="auth-highlight">
+        <span class="badge">Следующий шаг</span>
+        <h2>Заполните витрину в профиле</h2>
+        <p class="text-muted">
+          После подтверждения сразу переходите в профиль, чтобы настроить данные и добавить котиков на
+          публичную витрину.
+        </p>
+        <img src="../../assets/images/cat-showcase-2.svg" alt="Эскиз котика" />
+      </aside>
+    </main>
+  </body>
+</html>
