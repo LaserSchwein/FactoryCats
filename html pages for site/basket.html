@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .header {
+        background-color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .catalog-button {
+        padding: 10px 20px;
+        background-color: #dee2e6;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .search-input {
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .icons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    .cart-container {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .cart-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .cart-item {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .item-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+    }
+
+    .item-image {
+        width: 50px;
+        height: 50px;
+        background-color: #666;
+        border-radius: 4px;
+    }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .item-name {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .item-characteristics {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .remove-btn {
+        background: none;
+        border: none;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cart-summary {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .total-text {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .checkout-btn {
+        padding: 12px 30px;
+        background-color: #dee2e6;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .checkout-btn:hover {
+        background-color: #ced4da;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="search-container">
+    <button class="catalog-button">каталог</button>
+    <label>
+      <input type="text" class="search-input" placeholder="Поиск...">
+    </label>
+  </div>
+  <div class="icons">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l7.17 7.17a2 2 0 0 1 0 2.83z"/>
+      <path d="M6.41 6L12 12.59 17.59 6 20 8.41 14.41 14 12 17.59 8.41 20 6 17.59 1.41 14z"/>
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 1 1-8 0"/>
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="red" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/>
+    </svg>
+  </div>
+</header>
+
+<main class="cart-container">
+  <h1 class="cart-title">корзина</h1>
+
+  <div class="cart-item">
+    <div class="item-info">
+      <div class="item-image"></div>
+      <div class="item-details">
+        <div class="item-name">Характеристики</div>
+      </div>
+    </div>
+    <button class="remove-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="cart-item">
+    <div class="item-info">
+      <div class="item-image"></div>
+      <div class="item-details">
+        <div class="item-name">Характеристики</div>
+      </div>
+    </div>
+    <button class="remove-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="cart-item">
+    <div class="item-info">
+      <div class="item-image"></div>
+      <div class="item-details">
+        <div class="item-name">Характеристики</div>
+      </div>
+    </div>
+    <button class="remove-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="cart-item">
+    <div class="item-info">
+      <div class="item-image"></div>
+      <div class="item-details">
+        <div class="item-name">Характеристики</div>
+      </div>
+    </div>
+    <button class="remove-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="cart-summary">
+    <div class="total-text">Итого: Сумма</div>
+    <button class="checkout-btn">Оформить</button>
+  </div>
+</main>
+</body>
+</html>

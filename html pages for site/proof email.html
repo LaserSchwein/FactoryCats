@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подтверждение почты</title>
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    .logo {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .auth-container {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .auth-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #333;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+    }
+
+    .code-inputs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .code-input {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 18px;
+        text-align: center;
+        background-color: #f8f9fa;
+    }
+
+    .code-input:focus {
+        outline: none;
+        border-color: #ced4da;
+    }
+
+    .register-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #dee2e6;
+        color: #333;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .register-btn:hover {
+        background-color: #ced4da;
+    }
+
+    .icons {
+        display: flex;
+        gap: 15px;
+    }
+
+    .icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="auth-container">
+  <h2 class="auth-title">Мы отправили вам код на почту</h2>
+  <form>
+    <div class="form-group">
+      <label class="form-label" for="code">Введите код</label>
+      <div class="code-inputs">
+        <label>
+          <input type="text" class="code-input" maxlength="1" pattern="[0-9]">
+        </label>
+        <label>
+          <input type="text" class="code-input" maxlength="1" pattern="[0-9]">
+        </label>
+        <label>
+          <input type="text" class="code-input" maxlength="1" pattern="[0-9]">
+        </label>
+        <label>
+          <input type="text" class="code-input" maxlength="1" pattern="[0-9]">
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="register-btn">Подтвердить</button>
+  </form>
+</div>
+
+<script>
+  // Автоматическое переключение между полями ввода кода
+  const codeInputs = document.querySelectorAll('.code-input');
+  codeInputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+          if (input.value.length === 1) {
+              if (index < codeInputs.length - 1) {
+                  codeInputs[index + 1].focus();
+              }
+          }
+      });
+
+      input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && input.value.length === 0) {
+              if (index > 0) {
+                  codeInputs[index - 1].focus();
+              }
+          }
+      });
+  });
+</script>
+</body>
+</html>
