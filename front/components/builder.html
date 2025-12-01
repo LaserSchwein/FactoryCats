@@ -1,126 +1,79 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Конструктор котиков — Котофабрика</title>
     <link rel="stylesheet" href="../assets/css/main.css" />
-  </head>
-  <body class="app builder-page">
-    <header class="app-header">
-      <div class="container app-header__inner">
+</head>
+<body class="app builder-page">
+<header class="app-header">
+    <div class="container app-header__inner">
         <a class="brand" href="../pages/catalog/catalog.html"><span class="brand-icon">🐾</span>Котофабрика</a>
         <nav class="app-header__nav" aria-label="Основная навигация">
-          <a class="app-header__link" href="../pages/catalog/catalog.html">Каталог</a>
-          <a class="app-header__link" href="../pages/orders/orders.html">Заказы</a>
-          <a class="app-header__link" href="../pages/community/community.html">Витрины</a>
+            <a class="app-header__link" href="../pages/catalog/catalog.html">Каталог</a>
+            <a class="app-header__link" href="../pages/orders/orders.html">Заказы</a>
+            <a class="app-header__link" href="../pages/community/community.html">Витрины</a>
         </nav>
         <div class="app-header__actions">
-          <a class="secondary-btn secondary-btn--active" href="builder.html">Конструктор</a>
-          <a class="ghost-btn" href="../pages/cart/cart.html" aria-label="Корзина">🛒</a>
-          <a class="ghost-btn" href="../pages/user/profile.html" aria-label="Профиль">👤</a>
+            <a class="secondary-btn secondary-btn--active" href="builder.html">Конструктор</a>
+            <a class="ghost-btn" href="../pages/cart/cart.html" aria-label="Корзина">🛒</a>
+            <a class="ghost-btn" href="../pages/user/profile.html" aria-label="Профиль">👤</a>
         </div>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <main>
-      <section class="section">
+<main>
+    <section class="section">
         <div class="container builder-shell">
-          <div class="builder-intro">
-            <h1 class="builder-title">Соберите котика из любимых деталей</h1>
-            <p class="builder-description text-muted">
-              Переключайте голову и тело стрелками, чтобы моментально увидеть новые сочетания. Навигация сверху остаётся
-              нетронутой — экспериментируйте с образами прямо здесь, без перезагрузок.
-            </p>
-          </div>
-
-          <div class="cat-builder" aria-label="Интерактивный конструктор котика">
-            <div class="cat-stage" role="img" aria-label="Визуальный предпросмотр котика">
-              <button class="arrow-btn head-arrow arrow-btn--left" type="button" aria-label="Предыдущая голова">
-                &#8249;
-              </button>
-              <button class="arrow-btn head-arrow arrow-btn--right" type="button" aria-label="Следующая голова">
-                &#8250;
-              </button>
-
-              <button class="arrow-btn body-arrow arrow-btn--left" type="button" aria-label="Предыдущее тело">
-                &#8249;
-              </button>
-              <button class="arrow-btn body-arrow arrow-btn--right" type="button" aria-label="Следующее тело">
-                &#8250;
-              </button>
-
-              <div class="cat-canvas">
-                <img
-                  id="cat-body"
-                  class="cat-layer cat-body"
-                  src="../assets/images/body-1.png"
-                  alt="Тело котика"
-                />
-                <img
-                  id="cat-head"
-                  class="cat-layer cat-head"
-                  src="../assets/images/head-1.png"
-                  alt="Голова котика"
-                />
-              </div>
+            <div class="builder-intro">
+                <h1 class="builder-title">Соберите котика из любимых деталей</h1>
+                <p class="builder-description text-muted">
+                    Создайте своего уникального котика! Используйте стрелки, чтобы комбинировать разные головы и тела.
+                    Ищите идеальное сочетание, которое отразит характер вашего будущего котика.
+                </p>
             </div>
 
-            <div class="builder-note">
-              <p>Подбирайте сочетания, пока котик не станет идеальным. Готовые пресеты сохранятся при переходе в каталог.</p>
+            <div class="cat-builder" aria-label="Интерактивный конструктор котика">
+                <div class="cat-stage" role="img" aria-label="Визуальный предпросмотр котика">
+                    <button class="arrow-btn head-arrow arrow-btn--left" type="button" aria-label="Предыдущая голова">
+                        &#8249;
+                    </button>
+                    <button class="arrow-btn head-arrow arrow-btn--right" type="button" aria-label="Следующая голова">
+                        &#8250;
+                    </button>
+
+                    <button class="arrow-btn body-arrow arrow-btn--left" type="button" aria-label="Предыдущее тело">
+                        &#8249;
+                    </button>
+                    <button class="arrow-btn body-arrow arrow-btn--right" type="button" aria-label="Следующее тело">
+                        &#8250;
+                    </button>
+
+                    <div class="cat-canvas">
+                        <img
+                                id="cat-body"
+                                class="cat-layer cat-body"
+                                src="../assets/images/body-1.png"
+                                alt="Тело котика"
+                        />
+                        <img
+                                id="cat-head"
+                                class="cat-layer cat-head"
+                                src="../assets/images/head-1.png"
+                                alt="Голова котика"
+                        />
+                    </div>
+                </div>
+
+                <div class="builder-note">
+                    <p>Подбирайте сочетания, пока котик не станет идеальным. Готовые пресеты сохранятся при переходе в каталог.</p>
+                </div>
             </div>
-          </div>
         </div>
-      </section>
-    </main>
+    </section>
+</main>
 
-    <script src="../assets/java/main.js"></script>
-    <script>
-      const heads = ["../assets/images/head-1.png", "../assets/images/head-2.png", "../assets/images/head-3.png",
-       "../assets/images/head-4.png", "../assets/images/head-5.png", "../assets/images/head-6.png", "../assets/images/head-7.png" ];
-      const bodies = ["../assets/images/body-1.png", "../assets/images/body-2.png","../assets/images/body-3.png","../assets/images/body-4.png","../assets/images/body-5.png","../assets/images/body-6.png"];
-
-      let headIndex = 0;
-      let bodyIndex = 0;
-
-      function updateHead() {
-        document.getElementById("cat-head").src = heads[headIndex];
-      }
-
-      function updateBody() {
-        document.getElementById("cat-body").src = bodies[bodyIndex];
-      }
-
-      function nextHead() {
-        headIndex = (headIndex + 1) % heads.length;
-        updateHead();
-      }
-
-      function prevHead() {
-        headIndex = (headIndex - 1 + heads.length) % heads.length;
-        updateHead();
-      }
-
-      function nextBody() {
-        bodyIndex = (bodyIndex + 1) % bodies.length;
-        updateBody();
-      }
-
-      function prevBody() {
-        bodyIndex = (bodyIndex - 1 + bodies.length) % bodies.length;
-        updateBody();
-      }
-
-      function bindArrows() {
-        document.querySelector('.head-arrow.arrow-btn--left')?.addEventListener('click', prevHead);
-        document.querySelector('.head-arrow.arrow-btn--right')?.addEventListener('click', nextHead);
-        document.querySelector('.body-arrow.arrow-btn--left')?.addEventListener('click', prevBody);
-        document.querySelector('.body-arrow.arrow-btn--right')?.addEventListener('click', nextBody);
-      }
-
-      bindArrows();
-      updateHead();
-      updateBody();
-    </script>
-  </body>
+<script src="../assets/java/main.js"></script>
+</body>
 </html>

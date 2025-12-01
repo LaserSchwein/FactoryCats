@@ -114,6 +114,8 @@ body::after {
 }
 
 .landing__footer {
+    background: var(--panel);
+    border-radius: var(--radius-lg);
     font-size: 0.95rem;
     line-height: 1.5;
 }
@@ -135,19 +137,20 @@ body::after {
 .auth__content {
     width: min(1100px, 92vw);
     margin: 0 auto 48px;
-    display: grid;
+    display: flex;
     grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
     gap: 32px;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
 }
 
-.auth-card,
-.auth-highlight {
+.auth-card {
     background: var(--panel);
     border-radius: var(--radius-md);
     border: 3px solid var(--border-strong);
     padding: 48px;
     box-shadow: var(--shadow-md);
+    justify-content: center;
 }
 
 .auth-card h1 {
@@ -168,19 +171,6 @@ body::after {
 
 .auth__switch {
     margin-top: 24px;
-}
-
-.auth-highlight {
-    display: grid;
-    align-content: start;
-    gap: 18px;
-    text-align: left;
-}
-
-.auth-highlight img {
-    max-width: 320px;
-    width: 100%;
-    justify-self: center;
 }
 
 .app-header {
