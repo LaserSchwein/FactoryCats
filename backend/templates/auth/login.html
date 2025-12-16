@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вход в Котофабрику</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body class="auth">
+    <header class="auth__header">
+        <a class="brand" href="{% url 'home' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
+    </header>
+    <main class="auth__content">
+        <section class="auth-card">
+            <h1>С возвращением!</h1>
+            <p class="text-muted">
+                Введите данные и попадите в каталог котиков и ваш персональный конструктор.
+            </p>
+
+            <form class="auth-form" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                <div class="alert alert-error">
+                    Неверное имя пользователя или пароль.
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_username">Имя пользователя</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Пароль</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button class="primary-btn" type="submit">Войти</button>
+            </form>
+
+            <p class="text-muted auth__switch">
+                Впервые в Котофабрике?
+                <a href="{% url 'register' %}">Создайте аккаунт</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

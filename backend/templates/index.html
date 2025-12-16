@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Котофабрика — вход для коллекционеров</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+</head>
+<body class="landing">
+    <main class="landing__inner">
+        <div class="landing__brand">
+            <span class="brand-icon">🐾</span>
+            <h1>Котофабрика</h1>
+
+            {% if user.is_authenticated %}
+                <p>Добро пожаловать, {{ user.username }}! Вы успешно вошли в систему.</p>
+                <div class="landing__actions">
+                    <a class="primary-btn" href="{% url 'catalog' %}">Перейти в каталог</a>
+                    <a class="secondary-btn" href="{% url 'logout' %}">Выйти</a>
+                </div>
+            {% else %}
+                <p>Создавай и коллекционируй цифровых котиков после входа в аккаунт.</p>
+                <div class="landing__actions">
+                    <a class="primary-btn" href="{% url 'register' %}">Зарегистрироваться</a>
+                    <a class="secondary-btn" href="{% url 'login' %}">Войти</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <footer class="landing__footer text-muted">
+            <p>
+                {% if user.is_authenticated %}
+                    Теперь вы можете создавать котиков в конструкторе!
+                {% else %}
+                    Войдите или создайте аккаунт, чтобы начать создавать котиков.
+                {% endif %}
+            </p>
+        </footer>
+    </main>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Корзина — Котофабрика</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="{% url 'catalog' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="{% url 'catalog' %}">Каталог</a>
+          <a class="app-header__link" href="{% url 'orders' %}">Заказы</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="{% url 'builder' %}">Конструктор</a>
+          <a class="ghost-btn ghost-btn--active" href="{% url 'cart' %}" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="{% url 'profile' %}" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container split-layout">
+        <div class="panel">
+          <span class="tag">Корзина</span>
+          <h2>Ваши товары</h2>
+          <div class="checkout-list" style="margin-top:28px;">
+            <div class="checkout-item">
+              <img class="checkout-thumb" src="{% static 'images/cat-card-glow.svg' %}" alt="Neon Arc Cat" />
+              <div>
+                <h4>Neon Arc Cat</h4>
+                <p class="text-muted">Легендарный набор · 1 шт.</p>
+              </div>
+              <button class="remove-btn" type="button" aria-label="Удалить">✕</button>
+            </div>
+            <div class="checkout-item">
+              <img class="checkout-thumb" src="{% static 'images/cat-card-crystal.svg' %}" alt="Crystal Tail" />
+              <div>
+                <h4>Crystal Tail</h4>
+                <p class="text-muted">Хвост · 2 шт.</p>
+              </div>
+              <button class="remove-btn" type="button" aria-label="Удалить">✕</button>
+            </div>
+            <div class="checkout-item">
+              <img class="checkout-thumb" src="{% static 'images/cat-card-aurora.svg' %}" alt="Aurora Aura" />
+              <div>
+                <h4>Aurora Aura</h4>
+                <p class="text-muted">Эффект · 1 шт.</p>
+              </div>
+              <button class="remove-btn" type="button" aria-label="Удалить">✕</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="align-self:start;">
+          <h3>Итог</h3>
+          <div class="checkout-list" style="margin-top:20px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="text-muted">Промежуточный итог</span>
+              <span>2 890 ₽</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="text-muted">Скидка коллекционера</span>
+              <span>-320 ₽</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="text-muted">Итого</span>
+              <span>2 570 ₽</span>
+            </div>
+          </div>
+          <a class="primary-btn" href="{% url 'checkout' %}">Перейти к оформлению</a>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'java/main.js' %}"></script>
+  </body>
+</html>
