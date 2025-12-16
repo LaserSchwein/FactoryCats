@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Конструктор котиков — Котофабрика</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+</head>
+<body class="app builder-page">
+    <header class="app-header">
+        <div class="container app-header__inner">
+            <a class="brand" href="{% url 'catalog' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
+            <nav class="app-header__nav" aria-label="Основная навигация">
+                <a class="app-header__link" href="{% url 'catalog' %}">Каталог</a>
+                <a class="app-header__link" href="{% url 'orders' %}">Заказы</a>
+            </nav>
+            <div class="app-header__actions">
+                <a class="secondary-btn secondary-btn--active" href="{% url 'builder' %}">Конструктор</a>
+                <a class="ghost-btn" href="{% url 'cart' %}" aria-label="Корзина">🛒</a>
+                <a class="ghost-btn" href="{% url 'profile' %}" aria-label="Профиль">👤</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container builder-shell">
+                <div class="builder-intro">
+                    <h1 class="builder-title">
+                        {% if user.is_authenticated %}
+                        Соберите котика из любимых деталей!
+                        {% else %}
+                        Соберите котика из любимых деталей
+                        {% endif %}
+                    </h1>
+                    <p class="builder-description text-muted">
+                        Переключайте голову и тело стрелками, чтобы моментально увидеть новые сочетания. Навигация сверху остаётся
+                        нетронутой — экспериментируйте с образами прямо здесь, без перезагрузок.
+                    </p>
+                    <div class="builder-actions">
+                        <button class="secondary-btn" onclick="saveCat()">Сохранить котика</button>
+                    </div>
+                </div>
+
+                <div class="cat-builder" aria-label="Интерактивный конструктор котика">
+                    <div class="cat-stage" role="img" aria-label="Визуальный предпросмотр котика">
+                        <button class="arrow-btn head-arrow arrow-btn--left" type="button" aria-label="Предыдущая голова">
+                            &#8249;
+                        </button>
+                        <button class="arrow-btn head-arrow arrow-btn--right" type="button" aria-label="Следующая голова">
+                            &#8250;
+                        </button>
+
+                        <button class="arrow-btn body-arrow arrow-btn--left" type="button" aria-label="Предыдущее тело">
+                            &#8249;
+                        </button>
+                        <button class="arrow-btn body-arrow arrow-btn--right" type="button" aria-label="Следующее тело">
+                            &#8250;
+                        </button>
+
+                        <div class="cat-canvas">
+                            <img
+                                id="cat-body"
+                                class="cat-layer cat-body"
+                                src="{% static 'images/body-1.png' %}"
+                                alt="Тело котика"
+                            />
+                            <img
+                                id="cat-head"
+                                class="cat-layer cat-head"
+                                src="{% static 'images/head-1.png' %}"
+                                alt="Голова котика"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="builder-note">
+                        <p>
+                            {% if user.is_authenticated %}
+                            Подбирайте сочетания, пока котик не станет идеальным. Готовые пресеты сохранятся в вашем профиле.
+                            {% else %}
+                            Подбирайте сочетания, пока котик не станет идеальным. Войдите, чтобы сохранить результат.
+                            {% endif %}
+                        </p>
+                        <div class="current-selection">
+                            <p><strong>Текущая голова:</strong> <span id="current-head">Стандартная голова (1/7)</span></p>
+                            <p><strong>Текущее тело:</strong> <span id="current-body">Стандартное тело (1/6)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{% static 'java/main.js' %}"></script>
+    <script>
+        // Используем статические пути Django
+        const heads = [
+            "{% static 'images/head-1.png' %}",
+            "{% static 'images/head-2.png' %}",
+            "{% static 'images/head-3.png' %}",
+            "{% static 'images/head-4.png' %}",
+            "{% static 'images/head-5.png' %}",
+            "{% static 'images/head-6.png' %}",
+            "{% static 'images/head-7.png' %}"
+        ];
+
+        const bodies = [
+            "{% static 'images/body-1.png' %}",
+            "{% static 'images/body-2.png' %}",
+            "{% static 'images/body-3.png' %}",
+            "{% static 'images/body-4.png' %}",
+            "{% static 'images/body-5.png' %}",
+            "{% static 'images/body-6.png' %}"
+        ];
+
+        // Названия для отображения
+        const headNames = [
+            "Стандартная голова", "Радужная голова", "Огненная голова",
+            "Тигриная голова", "Голова Робин Гуда", "Голова Дриады", "Арктическая голова"
+        ];
+
+        const bodyNames = [
+            "Стандартное тело", "Тело 'Дуэт'", "Ночное тело",
+            "Снежное тело", "Пухлое тело", "Радужное тело"
+        ];
+
+        let headIndex = 0;
+        let bodyIndex = 0;
+
+        function updateHead() {
+            document.getElementById("cat-head").src = heads[headIndex];
+            document.getElementById("current-head").textContent =
+                `${headNames[headIndex]} (${headIndex + 1}/${heads.length})`;
+        }
+
+        function updateBody() {
+            document.getElementById("cat-body").src = bodies[bodyIndex];
+            document.getElementById("current-body").textContent =
+                `${bodyNames[bodyIndex]} (${bodyIndex + 1}/${bodies.length})`;
+        }
+
+        function nextHead() {
+            headIndex = (headIndex + 1) % heads.length;
+            updateHead();
+        }
+
+        function prevHead() {
+            headIndex = (headIndex - 1 + heads.length) % heads.length;
+            updateHead();
+        }
+
+        function nextBody() {
+            bodyIndex = (bodyIndex + 1) % bodies.length;
+            updateBody();
+        }
+
+        function prevBody() {
+            bodyIndex = (bodyIndex - 1 + bodies.length) % bodies.length;
+            updateBody();
+        }
+
+        function saveCat() {
+            const catData = {
+                head: headIndex,
+                body: bodyIndex,
+                headName: headNames[headIndex],
+                bodyName: bodyNames[bodyIndex],
+                timestamp: new Date().toISOString()
+            };
+
+            // В будущем можно добавить AJAX запрос для сохранения
+            alert(`Котик сохранен!\nГолова: ${catData.headName}\nТело: ${catData.bodyName}\n\nВ будущем здесь будет сохранение в базу данных.`);
+
+            // Временное сохранение в localStorage
+            localStorage.setItem('lastSavedCat', JSON.stringify(catData));
+        }
+
+        function bindArrows() {
+            document.querySelector('.head-arrow.arrow-btn--left')?.addEventListener('click', prevHead);
+            document.querySelector('.head-arrow.arrow-btn--right')?.addEventListener('click', nextHead);
+            document.querySelector('.body-arrow.arrow-btn--left')?.addEventListener('click', prevBody);
+            document.querySelector('.body-arrow.arrow-btn--right')?.addEventListener('click', nextBody);
+        }
+
+        // Инициализация
+        bindArrows();
+        updateHead();
+        updateBody();
+
+        // Загрузка последнего сохраненного котика
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedCat = localStorage.getItem('lastSavedCat');
+            if (savedCat) {
+                const catData = JSON.parse(savedCat);
+                headIndex = catData.head;
+                bodyIndex = catData.body;
+                updateHead();
+                updateBody();
+            }
+        });
+    </script>
+</body>
+</html>
