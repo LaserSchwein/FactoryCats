@@ -13,7 +13,6 @@
         <a class="brand" href="{% url 'home' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
         <nav class="app-header__nav" aria-label="Основная навигация">
             <a class="app-header__link app-header__link--active" href="{% url 'catalog' %}">Каталог</a>
-            <a class="app-header__link" href="{% url 'orders' %}">Заказы</a>
         </nav>
         <div class="app-header__actions">
             <a class="secondary-btn" href="{% url 'builder' %}">Конструктор</a>
@@ -58,25 +57,69 @@
                 <h2>Фильтры</h2>
                 <div class="catalog-filter">
                     <h3>Части котика</h3>
-                    <label><input type="checkbox" checked /> Головы</label>
-                    <label><input type="checkbox" /> Тела</label>
+                    <label>
+                        <input type="checkbox" name="category" value="head"> Головы
+                    </label>
+                    <label>
+                        <input type="checkbox" name="category" value="body"> Тела
+                    </label>
                 </div>
                 <div class="catalog-filter">
                     <h3>Диапазон цены</h3>
-                    <label><input type="checkbox" /> до 500 ₽</label>
-                    <label><input type="checkbox" /> 500–1500 ₽</label>
-                    <label><input type="checkbox" checked /> 1500 ₽ и выше</label>
+                    <label>
+                        <input type="checkbox" name="price" value="low"> до 500 ₽
+                    </label>
+                    <label>
+                        <input type="checkbox" name="price" value="mid"> 500–1500 ₽
+                    </label>
+                    <label>
+                        <input type="checkbox" name="price" value="high"> 1500 ₽ и выше
+                    </label>
                 </div>
             </aside>
 
             <div class="catalog-grid">
-                <article class="product-card">
+                <article class="product-card" data-category="body" data-price="300">
                     <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-1.png' %}" alt="Стандартное Тело" />
+                        <img class="cat-part-image" src="{% static 'images/body-2.png' %}" alt="Тело 'Дуэт'" />
                     </div>
                     <div class="product-card__info">
-                        <h3>Стандартное Тело</h3>
-                        <p>Стандартная, надежная основа для любого котика. Не требует особого ухода.</p>
+                        <h3>Тело "Дуэт"</h3>
+                        <p>Стильное двухцветное тело, создающее эффект динамичного силуэта.</p>
+                        <div class="product-card__meta">
+                            <span>300 ₽</span>
+                            {% if user.is_authenticated %}
+                            <button class="secondary-btn" type="button">В корзину</button>
+                            {% else %}
+                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <article class="product-card" data-category="body" data-price="400">
+                    <div class="cat-image-container">
+                        <img class="cat-part-image" src="{% static 'images/body-3.png' %}" alt="Ночное Тело" />
+                    </div>
+                    <div class="product-card__info">
+                        <h3>Ночное Тело</h3>
+                        <p>Тело, впитавшее в себя оттенки глубокой ночи. Идеально для скрытных миссий.</p>
+                        <div class="product-card__meta">
+                            <span>400 ₽</span>
+                            {% if user.is_authenticated %}
+                            <button class="secondary-btn" type="button">В корзину</button>
+                            {% else %}
+                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <article class="product-card" data-category="body" data-price="450">
+                    <div class="cat-image-container">
+                        <img class="cat-part-image" src="{% static 'images/body-4.png' %}" alt="Снежное Тело" />
+                    </div>
+                    <div class="product-card__info">
+                        <h3>Снежное Тело</h3>
+                        <p>Пушистое тело, созданное для арктических приключений. Защищает от холода.</p>
                         <div class="product-card__meta">
                             <span>450 ₽</span>
                             {% if user.is_authenticated %}
@@ -87,133 +130,13 @@
                         </div>
                     </div>
                 </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-2.png' %}" alt="Тело 'Дуэт'" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Тело "Дуэт"</h3>
-                        <p>Стильное двухцветное тело, создающее эффект динамичного силуэта.</p>
-                        <div class="product-card__meta">
-                            <span>550 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-3.png' %}" alt="Ночное Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Ночное Тело</h3>
-                        <p>Тело, впитавшее в себя оттенки глубокой ночи. Идеально для скрытных миссий.</p>
-                        <div class="product-card__meta">
-                            <span>650 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-4.png' %}" alt="Снежное Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Снежное Тело</h3>
-                        <p>Пушистое тело, созданное для арктических приключений. Защищает от холода.</p>
-                        <div class="product-card__meta">
-                            <span>600 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
+                <article class="product-card" data-category="body" data-price="800">
                     <div class="cat-image-container">
                         <img class="cat-part-image" src="{% static 'images/body-5.png' %}" alt="Пухлое Тело" />
                     </div>
                     <div class="product-card__info">
                         <h3>Пухлое Тело</h3>
                         <p>Увеличенная модель для создания максимально милого и округлого питомца.</p>
-                        <div class="product-card__meta">
-                            <span>700 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-6.png' %}" alt="Радужное Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Радужное Тело</h3>
-                        <p>Яркое, переливающееся тело, которое мгновенно поднимает настроение.</p>
-                        <div class="product-card__meta">
-                            <span>850 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-1.png' %}" alt="Стандартная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Стандартная Голова</h3>
-                        <p>Классическая форма головы. Чистый холст для любых аксессуаров и эмоций.</p>
-                        <div class="product-card__meta">
-                            <span>550 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-2.png' %}" alt="Радужная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Радужная Голова</h3>
-                        <p>Голова с радужным градиентом, сияющая всеми цветами спектра.</p>
-                        <div class="product-card__meta">
-                            <span>750 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-3.png' %}" alt="Огненная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Огненная Голова</h3>
-                        <p>Яркие языки пламени и дерзкий взгляд. Для котиков с горячим характером.</p>
                         <div class="product-card__meta">
                             <span>800 ₽</span>
                             {% if user.is_authenticated %}
@@ -224,15 +147,15 @@
                         </div>
                     </div>
                 </article>
-                <article class="product-card">
+                <article class="product-card" data-category="body" data-price="900">
                     <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-4.png' %}" alt="Тигриная Голова" />
+                        <img class="cat-part-image" src="{% static 'images/body-6.png' %}" alt="Радужное Тело" />
                     </div>
                     <div class="product-card__info">
-                        <h3>Тигриная Голова</h3>
-                        <p>Хищный, полосатый дизайн с агрессивными чертами.</p>
+                        <h3>Радужное Тело</h3>
+                        <p>Яркое, переливающееся тело, которое мгновенно поднимает настроение.</p>
                         <div class="product-card__meta">
-                            <span>680 ₽</span>
+                            <span>900 ₽</span>
                             {% if user.is_authenticated %}
                             <button class="secondary-btn" type="button">В корзину</button>
                             {% else %}
@@ -241,7 +164,58 @@
                         </div>
                     </div>
                 </article>
-                <article class="product-card">
+                <article class="product-card" data-category="head" data-price="1200">
+                    <div class="cat-image-container">
+                        <img class="cat-part-image" src="{% static 'images/head-2.png' %}" alt="Радужная Голова" />
+                    </div>
+                    <div class="product-card__info">
+                        <h3>Радужная Голова</h3>
+                        <p>Голова с радужным градиентом, сияющая всеми цветами спектра.</p>
+                        <div class="product-card__meta">
+                            <span>1200 ₽</span>
+                            {% if user.is_authenticated %}
+                            <button class="secondary-btn" type="button">В корзину</button>
+                            {% else %}
+                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <article class="product-card" data-category="head" data-price="1400">
+                    <div class="cat-image-container">
+                        <img class="cat-part-image" src="{% static 'images/head-3.png' %}" alt="Огненная Голова" />
+                    </div>
+                    <div class="product-card__info">
+                        <h3>Огненная Голова</h3>
+                        <p>Яркие языки пламени и дерзкий взгляд. Для котиков с горячим характером.</p>
+                        <div class="product-card__meta">
+                            <span>1400 ₽</span>
+                            {% if user.is_authenticated %}
+                            <button class="secondary-btn" type="button">В корзину</button>
+                            {% else %}
+                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <article class="product-card" data-category="head" data-price="1550">
+                    <div class="cat-image-container">
+                        <img class="cat-part-image" src="{% static 'images/head-4.png' %}" alt="Тигриная Голова" />
+                    </div>
+                    <div class="product-card__info">
+                        <h3>Тигриная Голова</h3>
+                        <p>Хищный, полосатый дизайн с агрессивными чертами.</p>
+                        <div class="product-card__meta">
+                            <span>1550 ₽</span>
+                            {% if user.is_authenticated %}
+                            <button class="secondary-btn" type="button">В корзину</button>
+                            {% else %}
+                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                <article class="product-card" data-category="head" data-price="720">
                     <div class="cat-image-container">
                         <img class="cat-part-image" src="{% static 'images/head-5.png' %}" alt="Голова Робин Гуда" />
                     </div>
@@ -258,7 +232,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="product-card">
+                <article class="product-card" data-category="head" data-price="900">
                     <div class="cat-image-container">
                         <img class="cat-part-image" src="{% static 'images/head-6.png' %}" alt="Голова Дриады" />
                     </div>
@@ -275,7 +249,7 @@
                         </div>
                     </div>
                 </article>
-                <article class="product-card">
+                <article class="product-card" data-category="head" data-price="880">
                     <div class="cat-image-container">
                         <img class="cat-part-image" src="{% static 'images/head-7.png' %}" alt="Арктическая Голова" />
                     </div>
@@ -297,6 +271,44 @@
     </section>
 </main>
 
-<script src="{% static 'java/main.js' %}"></script>
+<script>
+    function applyCatalogFilters() {
+        const selectedCats = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(el => el.value);
+        const selectedPrices = Array.from(document.querySelectorAll('input[name="price"]:checked')).map(el => el.value);
+        const cards = document.querySelectorAll('.product-card');
+
+        cards.forEach(card => {
+            const category = card.dataset.category;
+            const price = parseInt(card.dataset.price);
+
+            const matchCat = selectedCats.length === 0 || selectedCats.includes(category);
+
+            let matchPrice = false;
+            if (selectedPrices.length === 0) {
+                matchPrice = true;
+            } else {
+                selectedPrices.forEach(range => {
+                    if (range === 'low' && price < 500) matchPrice = true;
+                    if (range === 'mid' && price >= 500 && price <= 1500) matchPrice = true;
+                    if (range === 'high' && price > 1500) matchPrice = true;
+                });
+            }
+
+            if (matchCat && matchPrice) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputs = document.querySelectorAll('.catalog-sidebar input');
+        inputs.forEach(input => {
+            input.addEventListener('change', applyCatalogFilters);
+        });
+        console.log("Фильтры инициализированы. Найдено чекбоксов:", inputs.length);
+    });
+</script>
 </body>
 </html>
