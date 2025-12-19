@@ -45,6 +45,7 @@
                 </div>
             </div>
             <div class="hero-cat-showcase">
+                <!-- Картинки для красоты (статика) -->
                 <img class="cat-layer cat-body" src="{% static 'images/body-1.png' %}" alt="Стандартное Тело" />
                 <img class="cat-layer cat-head" src="{% static 'images/head-1.png' %}" alt="Стандартная Голова" />
             </div>
@@ -57,11 +58,12 @@
                 <h2>Фильтры</h2>
                 <div class="catalog-filter">
                     <h3>Части котика</h3>
+                    <!-- Значения value должны совпадать с choices в models.py (head/body) -->
                     <label>
                         <input type="checkbox" name="category" value="head"> Головы
                     </label>
                     <label>
-                        <input type="checkbox" name="category" value="body"> Тела
+                        <input type="checkbox" name="category" value="body"> Туловища
                     </label>
                 </div>
                 <div class="catalog-filter">
@@ -79,199 +81,54 @@
             </aside>
 
             <div class="catalog-grid">
-                <article class="product-card" data-category="body" data-price="300">
+                {% for part in parts %}
+                <!--
+                    Динамическая карточка товара.
+                    data-category берется из part.part_type (head или body)
+                    data-price берется из part.price
+                 -->
+                <article class="product-card" data-category="{{ part.part_type }}" data-price="{{ part.price|floatformat:0 }}">
                     <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-2.png' %}" alt="Тело 'Дуэт'" />
+                        <!-- Вывод изображения из базы данных -->
+                        {% if part.image %}
+                            <img class="cat-part-image" src="{{ part.image.url }}" alt="{{ part.name }}" />
+                        {% else %}
+                            <!-- Заглушка, если картинки нет -->
+                            <div style="width:100%; height:200px; background:#eee; display:flex; align-items:center; justify-content:center;">Нет фото</div>
+                        {% endif %}
                     </div>
                     <div class="product-card__info">
-                        <h3>Тело "Дуэт"</h3>
-                        <p>Стильное двухцветное тело, создающее эффект динамичного силуэта.</p>
+                        <h3>{{ part.name }}</h3>
+                        <p>{{ part.description|default:"Описание отсутствует" }}</p>
                         <div class="product-card__meta">
-                            <span>300 ₽</span>
+                            <span>{{ part.price }} ₽</span>
+
                             {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
+                                <!-- Логика кнопки: проверяем список cart_part_ids, который передали из views.py -->
+                                {% if part.id in cart_part_ids %}
+                                    <button class="secondary-btn" type="button" disabled style="opacity: 0.7; cursor: default;">Уже в корзине</button>
+                                {% else %}
+                                    <button class="secondary-btn add-to-cart-btn" type="button" data-id="{{ part.id }}">В корзину</button>
+                                {% endif %}
                             {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
+                                <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
                             {% endif %}
                         </div>
                     </div>
                 </article>
-                <article class="product-card" data-category="body" data-price="400">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-3.png' %}" alt="Ночное Тело" />
+                {% empty %}
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <h3>В каталоге пока нет товаров</h3>
+                        <p>Пожалуйста, добавьте товары через админ-панель.</p>
                     </div>
-                    <div class="product-card__info">
-                        <h3>Ночное Тело</h3>
-                        <p>Тело, впитавшее в себя оттенки глубокой ночи. Идеально для скрытных миссий.</p>
-                        <div class="product-card__meta">
-                            <span>400 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="body" data-price="450">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-4.png' %}" alt="Снежное Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Снежное Тело</h3>
-                        <p>Пушистое тело, созданное для арктических приключений. Защищает от холода.</p>
-                        <div class="product-card__meta">
-                            <span>450 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="body" data-price="800">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-5.png' %}" alt="Пухлое Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Пухлое Тело</h3>
-                        <p>Увеличенная модель для создания максимально милого и округлого питомца.</p>
-                        <div class="product-card__meta">
-                            <span>800 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="body" data-price="900">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/body-6.png' %}" alt="Радужное Тело" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Радужное Тело</h3>
-                        <p>Яркое, переливающееся тело, которое мгновенно поднимает настроение.</p>
-                        <div class="product-card__meta">
-                            <span>900 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="1200">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-2.png' %}" alt="Радужная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Радужная Голова</h3>
-                        <p>Голова с радужным градиентом, сияющая всеми цветами спектра.</p>
-                        <div class="product-card__meta">
-                            <span>1200 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="1400">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-3.png' %}" alt="Огненная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Огненная Голова</h3>
-                        <p>Яркие языки пламени и дерзкий взгляд. Для котиков с горячим характером.</p>
-                        <div class="product-card__meta">
-                            <span>1400 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="1550">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-4.png' %}" alt="Тигриная Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Тигриная Голова</h3>
-                        <p>Хищный, полосатый дизайн с агрессивными чертами.</p>
-                        <div class="product-card__meta">
-                            <span>1550 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="720">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-5.png' %}" alt="Голова Робин Гуда" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Голова Робин Гуда</h3>
-                        <p>Голова в зеленой шляпе с пером, для благородных и отважных котиков.</p>
-                        <div class="product-card__meta">
-                            <span>720 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="900">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-6.png' %}" alt="Голова Дриады" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Голова Дриады</h3>
-                        <p>Украшена цветами и листвой. Придаст котику природное и мистическое очарование.</p>
-                        <div class="product-card__meta">
-                            <span>900 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
-                <article class="product-card" data-category="head" data-price="880">
-                    <div class="cat-image-container">
-                        <img class="cat-part-image" src="{% static 'images/head-7.png' %}" alt="Арктическая Голова" />
-                    </div>
-                    <div class="product-card__info">
-                        <h3>Арктическая Голова</h3>
-                        <p>Голова, покрытая кристаллами льда. Идеально сочетается со снежным телом.</p>
-                        <div class="product-card__meta">
-                            <span>880 ₽</span>
-                            {% if user.is_authenticated %}
-                            <button class="secondary-btn" type="button">В корзину</button>
-                            {% else %}
-                            <a class="secondary-btn" href="{% url 'login' %}">Войти для покупки</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </article>
+                {% endfor %}
             </div>
         </div>
     </section>
 </main>
 
 <script>
+    // 1. Скрипт фильтрации (оставляем как был)
     function applyCatalogFilters() {
         const selectedCats = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(el => el.value);
         const selectedPrices = Array.from(document.querySelectorAll('input[name="price"]:checked')).map(el => el.value);
@@ -302,12 +159,58 @@
         });
     }
 
+    // 2. Логика добавления в корзину (AJAX)
     document.addEventListener('DOMContentLoaded', () => {
+        // Инициализация фильтров
         const inputs = document.querySelectorAll('.catalog-sidebar input');
         inputs.forEach(input => {
             input.addEventListener('change', applyCatalogFilters);
         });
-        console.log("Фильтры инициализированы. Найдено чекбоксов:", inputs.length);
+
+        // Находим все кнопки "В корзину"
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const partId = this.dataset.id; // Получаем ID товара из data-id
+                const btn = this; // Сохраняем ссылку на кнопку
+
+                // Отправляем запрос на сервер
+                fetch('{% url "add_to_cart" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}' // Токен защиты Django
+                    },
+                    body: JSON.stringify({
+                        'part_id': partId
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Сетевая ошибка');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === 'success' || data.status === 'exists') {
+                        // Если успешно добавили или товар уже был там -> меняем вид кнопки
+                        btn.textContent = "Уже в корзине";
+                        btn.disabled = true;
+                        btn.style.opacity = "0.7";
+                        btn.style.cursor = "default";
+                    } else {
+                        alert('Ошибка: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Не удалось добавить товар. Проверьте соединение.');
+                });
+            });
+        });
+
+        console.log("Каталог инициализирован");
     });
 </script>
 </body>
