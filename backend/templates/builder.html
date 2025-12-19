@@ -6,6 +6,320 @@
     <title>Конструктор котиков — Котофабрика</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <style>
+        /* Стили для уведомлений */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification.warning {
+            background-color: #ff9800;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Стили для модального окна сохранения */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            margin: 0;
+            color: #333;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title::before {
+            content: "💾";
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+            transition: color 0.2s;
+            padding: 5px;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .cat-preview-modal {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            position: relative;
+            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .cat-preview-modal img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .primary-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .primary-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .secondary-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .secondary-btn:hover {
+            background: #5a6268;
+        }
+
+        /* Окно загрузки */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Стили для информации о пользователе */
+        .user-email-info {
+            background: #e8f5e9;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+            font-size: 14px;
+        }
+
+        .user-email-info strong {
+            color: #2e7d32;
+        }
+
+        .user-warning {
+            background: #fff3cd;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff9800;
+            font-size: 14px;
+        }
+
+        .user-warning strong {
+            color: #e65100;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .cat-preview-modal {
+                width: 150px;
+                height: 150px;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+            }
+
+            .primary-btn, .secondary-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body class="app builder-page">
     <header class="app-header">
@@ -38,7 +352,9 @@
                         нетронутой — экспериментируйте с образами прямо здесь, без перезагрузок.
                     </p>
                     <div class="builder-actions">
-                        <button class="secondary-btn" onclick="saveCat()">Сохранить котика</button>
+                        <button class="primary-btn" onclick="saveCat()" id="saveCatButton">
+                            Отправить котика
+                        </button>
                     </div>
                 </div>
 
@@ -75,13 +391,6 @@
                     </div>
 
                     <div class="builder-note">
-                        <p>
-                            {% if user.is_authenticated %}
-                            Подбирайте сочетания, пока котик не станет идеальным. Готовые пресеты сохранятся в вашем профиле.
-                            {% else %}
-                            Подбирайте сочетания, пока котик не станет идеальным. Войдите, чтобы сохранить результат.
-                            {% endif %}
-                        </p>
                         <div class="current-selection">
                             <p><strong>Текущая голова:</strong> <span id="current-head">Стандартная голова (1/7)</span></p>
                             <p><strong>Текущее тело:</strong> <span id="current-body">Стандартное тело (1/6)</span></p>
@@ -91,6 +400,57 @@
             </div>
         </section>
     </main>
+
+    <!-- Модальное окно для сохранения кота -->
+    <div id="saveCatModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Отправить котика</h3>
+                <button type="button" class="modal-close" onclick="closeSaveCatModal()">×</button>
+            </div>
+
+            <div class="cat-preview-modal">
+                <img id="modal-cat-body" src="" alt="Тело">
+                <img id="modal-cat-head" src="" alt="Голова">
+            </div>
+
+            <div id="emailInfo" class="user-email-info" style="display: none;">
+                Котик будет отправлен на: <strong id="userEmail"></strong>
+            </div>
+
+            <form id="saveCatForm" onsubmit="saveCatFormSubmit(event)">
+                <input type="hidden" id="modal-head-index" name="head_index">
+                <input type="hidden" id="modal-body-index" name="body_index">
+                <input type="hidden" id="modal-head-name" name="head_name">
+                <input type="hidden" id="modal-body-name" name="body_name">
+
+                <div class="form-group">
+                    <label for="cat-name" class="form-label">Название котика *</label>
+                    <input type="text" id="cat-name" name="cat_name" class="form-input"
+                           placeholder="Например, Пушистик" required
+                           maxlength="100">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" onclick="closeSaveCatModal()">
+                        Отмена
+                    </button>
+                    <button type="submit" class="primary-btn" id="saveCatSubmitBtn">
+                         Отправить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Окно загрузки -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Сохранение котика...</div>
+    </div>
+
+    <!-- Уведомления -->
+    <div id="notification" class="notification"></div>
 
     <script src="{% static 'java/main.js' %}"></script>
     <script>
@@ -160,20 +520,183 @@
             updateBody();
         }
 
+        // Новая функция сохранения кота с отправкой на email
         function saveCat() {
+            // Проверяем авторизацию
+            {% if not user.is_authenticated %}
+                showNotification('Для сохранения котика необходимо войти в систему.', 'error');
+                setTimeout(() => {
+                    window.location.href = "{% url 'login' %}?next={% url 'builder' %}";
+                }, 2000);
+                return;
+            {% endif %}
+
+            // Проверяем, есть ли email у пользователя
+            {% if not user.email %}
+                showNotification('Для отправки котика укажите email в вашем профиле.', 'error');
+                setTimeout(() => {
+                    window.location.href = "{% url 'profile' %}";
+                }, 2000);
+                return;
+            {% endif %}
+
+            // Обновляем превью в модальном окне
+            document.getElementById('modal-cat-head').src = heads[headIndex];
+            document.getElementById('modal-cat-body').src = bodies[bodyIndex];
+
+            // Заполняем скрытые поля
+            document.getElementById('modal-head-index').value = headIndex;
+            document.getElementById('modal-body-index').value = bodyIndex;
+            document.getElementById('modal-head-name').value = headNames[headIndex];
+            document.getElementById('modal-body-name').value = bodyNames[bodyIndex];
+
+            // Показываем email пользователя
+            const emailInfo = document.getElementById('emailInfo');
+            const userEmail = document.getElementById('userEmail');
+            userEmail.textContent = "{{ user.email }}";
+            emailInfo.style.display = 'block';
+
+            // Заполняем имя кота по умолчанию
+            document.getElementById('cat-name').value =
+                `${headNames[headIndex]} + ${bodyNames[bodyIndex]}`;
+
+            // Показываем модальное окно
+            document.getElementById('saveCatModal').style.display = 'flex';
+        }
+
+        function closeSaveCatModal() {
+            document.getElementById('saveCatModal').style.display = 'none';
+            document.getElementById('saveCatForm').reset();
+            document.getElementById('emailInfo').style.display = 'none';
+        }
+
+        function saveCatFormSubmit(event) {
+            event.preventDefault();
+
+            // Отключаем кнопку отправки
+            const submitBtn = document.getElementById('saveCatSubmitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Отправка...';
+            submitBtn.disabled = true;
+
+            // Показываем окно загрузки
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = document.getElementById('loadingText');
+            loadingText.textContent = 'Сохраняем и отправляем котика...';
+            loadingOverlay.style.display = 'flex';
+
+            // Получаем данные формы
+            const formData = new FormData(event.target);
             const catData = {
-                head: headIndex,
-                body: bodyIndex,
-                headName: headNames[headIndex],
-                bodyName: bodyNames[bodyIndex],
-                timestamp: new Date().toISOString()
+                head_index: parseInt(formData.get('head_index')),
+                body_index: parseInt(formData.get('body_index')),
+                head_name: formData.get('head_name'),
+                body_name: formData.get('body_name'),
+                cat_name: formData.get('cat_name')
             };
 
-            // В будущем можно добавить AJAX запрос для сохранения
-            alert(`Котик сохранен!\nГолова: ${catData.headName}\nТело: ${catData.bodyName}\n\nВ будущем здесь будет сохранение в базу данных.`);
+            // Отправляем на сервер
+            fetch('{% url "save_and_send_cat" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(catData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                loadingOverlay.style.display = 'none';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                closeSaveCatModal();
 
-            // Временное сохранение в localStorage
-            localStorage.setItem('lastSavedCat', JSON.stringify(catData));
+                if (data.success) {
+                    if (data.email_sent) {
+                        showNotification(
+                            `✅ Котик "${catData.cat_name}" сохранен и отправлен на ваш email!`,
+                            'success'
+                        );
+
+                        // Сохраняем в localStorage для истории
+                        localStorage.setItem('lastSavedCat', JSON.stringify({
+                            ...catData,
+                            timestamp: new Date().toISOString(),
+                            email_sent: data.email_sent,
+                            email: data.email
+                        }));
+
+                    } else {
+                        showNotification(
+                            `⚠️ Котик "${catData.cat_name}" сохранен, но не отправлен: ${data.warning || 'Ошибка отправки'}`,
+                            'warning'
+                        );
+                    }
+
+                } else {
+                    // Показываем ошибки валидации
+                    if (data.errors) {
+                        let errorMessage = '';
+                        for (const field in data.errors) {
+                            errorMessage += `${data.errors[field]}\n`;
+                        }
+                        showNotification(errorMessage.trim(), 'error');
+                    } else {
+                        showNotification(data.error || 'Произошла ошибка при сохранении', 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingOverlay.style.display = 'none';
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+
+                if (error.message.includes('Failed to fetch')) {
+                    showNotification('Ошибка сети. Проверьте подключение и попробуйте еще раз.', 'error');
+                } else {
+                    showNotification('Произошла ошибка. Пожалуйста, попробуйте еще раз.', 'error');
+                }
+            });
+        }
+
+        // Функция для показа уведомлений
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            notification.style.display = 'block';
+
+            // Автоматическое скрытие
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    notification.style.animation = '';
+                }, 300);
+            }, 5000);
+        }
+
+        // Функция для получения CSRF токена
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
 
         function bindArrows() {
@@ -193,11 +716,83 @@
             const savedCat = localStorage.getItem('lastSavedCat');
             if (savedCat) {
                 const catData = JSON.parse(savedCat);
-                headIndex = catData.head;
-                bodyIndex = catData.body;
+                headIndex = catData.head_index || catData.head || 0;
+                bodyIndex = catData.body_index || catData.body || 0;
                 updateHead();
                 updateBody();
             }
+
+            // Проверяем email пользователя и показываем предупреждение если его нет
+            {% if user.is_authenticated %}
+                {% if not user.email %}
+                setTimeout(() => {
+                    showNotification('⚠️ Укажите email в профиле для отправки котиков', 'warning');
+                }, 2000);
+                {% endif %}
+            {% endif %}
+
+            // Обновляем текст кнопки если пользователь авторизован
+            const saveCatBtn = document.getElementById('saveCatButton');
+            if (saveCatBtn) {
+                {% if user.is_authenticated %}
+                    {% if user.email %}
+                        saveCatBtn.innerHTML = 'Сохранить и отправить котика';
+                    {% else %}
+                        saveCatBtn.innerHTML = 'Сохранить котика (добавьте email)';
+                    {% endif %}
+                {% else %}
+                    saveCatBtn.innerHTML = 'Сохранить котика (требуется вход)';
+                {% endif %}
+            }
+        });
+
+        // Закрытие модального окна при клике вне его
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('saveCatModal');
+            if (event.target === modal) {
+                closeSaveCatModal();
+            }
+        });
+
+        // Закрытие модального окна при нажатии Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSaveCatModal();
+            }
+        });
+
+        // Горячие клавиши для переключения головы/тела
+        document.addEventListener('keydown', function(event) {
+            // Стрелка влево/вправо для головы
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                if (event.key === 'ArrowLeft') prevHead();
+                if (event.key === 'ArrowRight') nextHead();
+                event.preventDefault();
+            }
+
+            // Стрелка вверх/вниз для тела
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                if (event.key === 'ArrowUp') prevBody();
+                if (event.key === 'ArrowDown') nextBody();
+                event.preventDefault();
+            }
+
+            // Enter для сохранения
+            if (event.key === 'Enter' && !document.getElementById('saveCatModal').style.display) {
+                saveCat();
+                event.preventDefault();
+            }
+        });
+
+        // Обработка ошибок загрузки изображений
+        document.getElementById('cat-head').addEventListener('error', function() {
+            console.error('Ошибка загрузки головы');
+            this.src = "{% static 'images/head-1.png' %}";
+        });
+
+        document.getElementById('cat-body').addEventListener('error', function() {
+            console.error('Ошибка загрузки тела');
+            this.src = "{% static 'images/body-1.png' %}";
         });
     </script>
 </body>
