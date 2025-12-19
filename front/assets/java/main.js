@@ -1,3 +1,162 @@
+// Функция для получения CSRF-токена
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Переменные для хранения доступных частей
+let availableHeads = [];
+let availableBodies = [];
+
+// Загрузка доступных частей с сервера
+async function loadAvailableParts() {
+    try {
+        const response = await fetch('/api/available_parts/');
+        const data = await response.json();
+        availableHeads = data.heads;
+        availableBodies = data.bodies;
+    } catch (error) {
+        console.error("Ошибка загрузки доступных частей:", error);
+    }
+}
+
+// Обновление выпадающего списка голов
+function updateHeadSelect() {
+    const headSelect = document.querySelector('[name="head"]');
+    if (headSelect) {
+        headSelect.innerHTML = '';
+        availableHeads.forEach(head => {
+            const option = document.createElement('option');
+            option.value = head.id;
+            option.textContent = head.name;
+            headSelect.appendChild(option);
+        });
+    }
+}
+
+// Обновление выпадающего списка тел
+function updateBodySelect() {
+    const bodySelect = document.querySelector('[name="body"]');
+    if (bodySelect) {
+        bodySelect.innerHTML = '';
+        availableBodies.forEach(body => {
+            const option = document.createElement('option');
+            option.value = body.id;
+            option.textContent = body.name;
+            bodySelect.appendChild(option);
+        });
+    }
+}
+
+// Обновление изображения головы
+function updateHeadImage(headId) {
+    const selectedHead = availableHeads.find(head => head.id == headId);
+    if (selectedHead) {
+        const headImage = document.getElementById('cat-head');
+        if (headImage) {
+            headImage.src = selectedHead.image;
+        }
+    }
+}
+
+// Обновление изображения тела
+function updateBodyImage(bodyId) {
+    const selectedBody = availableBodies.find(body => body.id == bodyId);
+    if (selectedBody) {
+        const bodyImage = document.getElementById('cat-body');
+        if (bodyImage) {
+            bodyImage.src = selectedBody.image;
+        }
+    }
+}
+
+// Сохранение кота
+async function saveCat() {
+    const selectedHeadId = document.querySelector('[name="head"]:checked')?.value;
+    const selectedBodyId = document.querySelector('[name="body"]:checked')?.value;
+
+    if (!selectedHeadId || !selectedBodyId) {
+        alert("Пожалуйста, выберите голову и тело для кота.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/save_cat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                head: selectedHeadId,
+                body: selectedBodyId,
+            }),
+        });
+
+        if (response.ok) {
+            alert("Котик успешно сохранён!");
+        } else {
+            alert("Ошибка сохранения котика.");
+        }
+    } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Произошла ошибка при сохранении.");
+    }
+}
+
+// Обработчики событий для переключения частей
+function bindArrows() {
+    const prevHeadBtn = document.querySelector('.head-arrow.arrow-btn--left');
+    const nextHeadBtn = document.querySelector('.head-arrow.arrow-btn--right');
+    const prevBodyBtn = document.querySelector('.body-arrow.arrow-btn--left');
+    const nextBodyBtn = document.querySelector('.body-arrow.arrow-btn--right');
+
+    if (prevHeadBtn && nextHeadBtn) {
+        let currentHeadIndex = 0;
+        prevHeadBtn.addEventListener('click', () => {
+            currentHeadIndex = (currentHeadIndex - 1 + availableHeads.length) % availableHeads.length;
+            const selectedHeadId = availableHeads[currentHeadIndex].id;
+            document.querySelector(`[name="head"][value="${selectedHeadId}"]`).checked = true;
+            updateHeadImage(selectedHeadId);
+        });
+
+        nextHeadBtn.addEventListener('click', () => {
+            currentHeadIndex = (currentHeadIndex + 1) % availableHeads.length;
+            const selectedHeadId = availableHeads[currentHeadIndex].id;
+            document.querySelector(`[name="head"][value="${selectedHeadId}"]`).checked = true;
+            updateHeadImage(selectedHeadId);
+        });
+    }
+
+    if (prevBodyBtn && nextBodyBtn) {
+        let currentBodyIndex = 0;
+        prevBodyBtn.addEventListener('click', () => {
+            currentBodyIndex = (currentBodyIndex - 1 + availableBodies.length) % availableBodies.length;
+            const selectedBodyId = availableBodies[currentBodyIndex].id;
+            document.querySelector(`[name="body"][value="${selectedBodyId}"]`).checked = true;
+            updateBodyImage(selectedBodyId);
+        });
+
+        nextBodyBtn.addEventListener('click', () => {
+            currentBodyIndex = (currentBodyIndex + 1) % availableBodies.length;
+            const selectedBodyId = availableBodies[currentBodyIndex].id;
+            document.querySelector(`[name="body"][value="${selectedBodyId}"]`).checked = true;
+            updateBodyImage(selectedBodyId);
+        });
+    }
+}
+
+// Существующий код для каталога, навигации, карусели, OTP, вкладок
 const catalogToggle = document.querySelector('.catalog-toggle');
 const header = document.querySelector('.site-header');
 
@@ -102,6 +261,7 @@ if (tabPanels.length > 0) {
     });
 }
 
+// Логика конструктора котов
 const builderControls = document.querySelector('.builder-controls');
 if (builderControls) {
     const builderAssets = {
@@ -210,3 +370,24 @@ if (builderControls) {
         showFaceImage(null);
     }
 }
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadAvailableParts();
+    updateHeadSelect();
+    updateBodySelect();
+    bindArrows();
+
+    // Устанавливаем начальные изображения
+    if (availableHeads.length > 0) {
+        const initialHeadId = availableHeads[0].id;
+        document.querySelector(`[name="head"][value="${initialHeadId}"]`).checked = true;
+        updateHeadImage(initialHeadId);
+    }
+
+    if (availableBodies.length > 0) {
+        const initialBodyId = availableBodies[0].id;
+        document.querySelector(`[name="body"][value="${initialBodyId}"]`).checked = true;
+        updateBodyImage(initialBodyId);
+    }
+});

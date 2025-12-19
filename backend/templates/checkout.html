@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оформление заказа — Котофабрика</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
+  <body class="app">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="{% url 'home' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="{% url 'catalog' %}">Каталог</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="{% url 'builder' %}">Конструктор</a>
+          <a class="ghost-btn" href="{% url 'cart' %}" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn" href="{% url 'profile' %}" aria-label="Профиль">👤</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+
+        <!-- Вывод сообщений об ошибках (например, мало денег) -->
+        {% if messages %}
+            {% for message in messages %}
+                <div style="padding: 15px; margin-bottom: 20px; border-radius: 8px; background: #ffe6e6; color: #d00; border: 1px solid #d00;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <span class="tag">Оформление заказа</span>
+        <h2>Покупка частей</h2>
+        <div class="split-layout" style="margin-top:28px;">
+
+          <!-- Форма отправки заказа -->
+          <form class="panel" style="gap:20px;" method="post">
+            {% csrf_token %}
+            <h3>Данные покупателя</h3>
+            <label class="form-group">
+              <span>Имя</span>
+              <input type="text" name="name" value="{{ user.first_name|default:user.username }}" readonly style="opacity: 0.7;" />
+            </label>
+            <label class="form-group">
+              <span>Email</span>
+              <input type="email" name="email" value="{{ user.email|default:'Нет почты' }}" readonly style="opacity: 0.7;" />
+            </label>
+
+            <h3>Оплата</h3>
+            <p style="font-size: 0.9em; color: #666;">Средства будут списаны с вашего внутреннего баланса.</p>
+            <label class="form-group">
+              <span>Способ оплаты</span>
+              <select name="payment_method">
+                <option value="balance">Внутренний баланс ({{ profile.balance }} ₽)</option>
+              </select>
+            </label>
+
+            <!-- Блокируем кнопку, если денег мало -->
+            {% if profile.balance >= total_price %}
+                <button class="primary-btn" type="submit">Оплатить {{ total_price }} ₽</button>
+            {% else %}
+                <button class="primary-btn" type="button" disabled style="opacity: 0.5; cursor: not-allowed;">Недостаточно средств</button>
+                <p style="color: red; font-size: 0.9em;">Пополните баланс в профиле (нужно {{ total_price }} ₽).</p>
+            {% endif %}
+          </form>
+
+          <!-- Правая панель: Состав заказа -->
+          <aside class="panel" style="align-self:start;">
+            <h3>В заказе</h3>
+            <div class="checkout-list" style="margin-top:20px;">
+              {% for item in cart_items %}
+              <div class="checkout-item">
+                <img class="checkout-thumb" src="{{ item.part.image.url }}" alt="{{ item.part.name }}" />
+                <div>
+                  <h4>{{ item.part.name }}</h4>
+                  <p class="text-muted">{{ item.part.price }} ₽</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="checkout-summary">
+              <div class="checkout-summary__total"><span>Итого к оплате</span><span>{{ total_price }} ₽</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <script src="{% static 'java/main.js' %}"></script>
+  </body>
+</html>

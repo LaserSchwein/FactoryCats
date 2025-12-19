@@ -15,6 +15,7 @@ class CatPart(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
     image = models.ImageField(upload_to='cat_parts/', verbose_name='Изображение')
     description = models.TextField(blank=True, verbose_name='Описание')
+    is_default = models.BooleanField(default=False, verbose_name='Доступно по умолчанию')
 
     class Meta:
         verbose_name = 'Часть кота'
