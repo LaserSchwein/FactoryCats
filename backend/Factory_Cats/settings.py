@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-cu4nm!zex(=!a&3$=6n8z$$kw-!25#cvukc&kwnvv0*y8m^7y!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['62.113.117.166', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # Добавлено для медиа файлов
             ],
         },
     },
@@ -77,17 +78,11 @@ WSGI_APPLICATION = 'Factory_Cats.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cats_factory',
-        'USER': 'catuser',
-        'PASSWORD': '1234',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-ALLOWED_HOSTS = ['62.113.117.166']
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -111,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'  # Изменено на русский
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'  # Изменено на московское время
 
 USE_I18N = True
 
@@ -127,7 +122,99 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Дополнительные директории для статических файлов
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# Директория для collectstatic (для продакшена)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files (загруженные пользователями файлы)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email settings for Yandex
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587  # Меняем на 587
+EMAIL_USE_TLS = True  # Включаем TLS
+EMAIL_USE_SSL = False  # Отключаем SS
+EMAIL_HOST_USER = 'cotofabrica@yandex.ru'  # Полный email адрес
+EMAIL_HOST_PASSWORD = 'dvqhcxuijzzhrsbt'  # Пароль приложения
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_SUBJECT_PREFIX = '[Котофабрика] '
+# ДОБАВЬТЕ ЭТИ НАСТРОЙКИ:
+EMAIL_TIMEOUT = 30  # Таймаут в секундах
+EMAIL_USE_LOCALTIME = True
+
+# Для отладки
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# URL вашего сайта
+SITE_URL = 'http://62.113.117.166'  # Используйте ваш IP или домен
+
+# Login settings
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Security settings for production (раскомментировать для продакшена)
+# SECURE_SSL_REDIRECT = False  # Установить True если есть SSL
+# SESSION_COOKIE_SECURE = False  # Установить True если есть SSL
+# CSRF_COOKIE_SECURE = False  # Установить True если есть SSL
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# X_FRAME_OPTIONS = 'DENY'
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'main': {  # Логгер для вашего приложения
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
