@@ -1,90 +1,96 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Профиль — Котофабрика</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-</head>
-<body class="app profile-page">
-<header class="app-header">
-  <div class="container app-header__inner">
-    <a class="brand" href="{% url 'catalog' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
-    <nav class="app-header__nav" aria-label="Основная навигация">
-      <a class="app-header__link" href="{% url 'catalog' %}">Каталог</a>
-    </nav>
-    <div class="app-header__actions">
-      <a class="secondary-btn" href="{% url 'builder' %}">Конструктор</a>
-      <a class="ghost-btn" href="{% url 'cart' %}" aria-label="Корзина">🛒</a>
-      <a class="ghost-btn ghost-btn--active" href="#" aria-label="Профиль">👤</a>
-    </div>
-  </div>
-</header>
-
-<main>
-  <section class="section">
-    <div class="container profile-layout">
-      <aside class="profile-summary">
-        <div class="avatar-frame">
-          {% if user.is_authenticated %}{{ user.username|slice:":2"|upper }}{% else %}AK{% endif %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профиль — Котофабрика</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  </head>
+  <body class="app profile-page">
+    <header class="app-header">
+      <div class="container app-header__inner">
+        <a class="brand" href="{% url 'catalog' %}"><span class="brand-icon">🐾</span>Котофабрика</a>
+        <nav class="app-header__nav" aria-label="Основная навигация">
+          <a class="app-header__link" href="{% url 'catalog' %}">Каталог</a>
+          <a class="app-header__link" href="{% url 'orders' %}">Заказы</a>
+        </nav>
+        <div class="app-header__actions">
+          <a class="secondary-btn" href="{% url 'builder' %}">Конструктор</a>
+          <a class="ghost-btn" href="{% url 'cart' %}" aria-label="Корзина">🛒</a>
+          <a class="ghost-btn ghost-btn--active" href="{% url 'profile' %}" aria-label="Профиль">👤</a>
         </div>
-        <h1>
-          {% if user.is_authenticated %}
-          {{ user.username }}
-          {% else %}
-          Александра Кэт
-          {% endif %}
-        </h1>
-        <p class="text-muted">
-          {% if user.is_authenticated and user.email %}{{ user.email }}{% else %}meow@factorycats.io{% endif %}
-        </p>
-      </aside>
-
-      <div class="profile-content">
-        <section class="profile-card" id="profile-editor">
-          <header>
-            <h2>Редактирование профиля</h2>
-            <p class="text-muted">Обновите данные аккаунта.</p>
-          </header>
-          <form class="profile-form" method="post">
-            {% csrf_token %}
-            <div class="form-row">
-              <label>
-                <span>Никнейм</span>
-                <input type="text" name="username" value="{% if user.is_authenticated %}{{ user.username }}{% else %}@catlena{% endif %}" />
-              </label>
-            </div>
-            <div class="form-row">
-              <label>
-                <span>Email</span>
-                <input type="email" name="email" value="{% if user.is_authenticated and user.email %}{{ user.email }}{% else %}meow@factorycats.io{% endif %}" />
-              </label>
-            </div>
-            <div class="profile-form__actions">
-              <button class="secondary-btn" type="button">Отменить</button>
-              <button class="primary-btn" type="submit">Сохранить</button>
-            </div>
-          </form>
-        </section>
-
-        <section class="profile-card" id="balance-info">
-          <header>
-            <h2>Мой баланс</h2>
-            <p class="text-muted">Используйте средства для покупки новых деталей в каталоге.</p>
-          </header>
-
-          <div class="balance-display">
-            <span class="balance-amount">0 ₽</span>
-            <button class="primary-btn" type="button">
-              <span>➕</span> Пополнить баланс
-            </button>
-          </div>
-        </section>
       </div>
-    </div>
-  </section>
-</main>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container profile-layout">
+          <aside class="profile-summary">
+            <div class="avatar-frame">
+              {% if user.is_authenticated %}{{ user.username|slice:":2"|upper }}{% else %}AK{% endif %}
+            </div>
+            <h1>
+              {% if user.is_authenticated %}
+                {{ user.username }}
+              {% else %}
+                Александра Кэт
+              {% endif %}
+            </h1>
+            <p class="text-muted">
+              {% if user.is_authenticated and user.email %}{{ user.email }}{% else %}meow@factorycats.io{% endif %}
+            </p>
+          </aside>
+
+          <div class="profile-content">
+            <section class="profile-card" id="profile-editor">
+              <header>
+                <h2>Редактирование профиля</h2>
+                <p class="text-muted">Обновите данные аккаунта.</p>
+              </header>
+              <form class="profile-form" method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+                <div class="form-row">
+                  <label>
+                    <span>Никнейм</span>
+                    <input
+                      type="text"
+                      name="username"
+                      value="{% if user.is_authenticated %}{{ user.username }}{% else %}@catlena{% endif %}"
+                    />
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label>
+                    <span>Email</span>
+                    <input
+                      type="email"
+                      name="email"
+                      value="{% if user.is_authenticated and user.email %}{{ user.email }}{% else %}meow@factorycats.io{% endif %}"
+                    />
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label>
+                    <span>Баланс</span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      name="balance"
+                      value="{% if user.is_authenticated %}{{ profile.balance }}{% else %}0.00{% endif %}"
+                    />
+                  </label>
+                </div>
+                <div class="profile-form__actions">
+                  <button class="secondary-btn" type="button">Отменить</button>
+                  <button class="primary-btn" type="submit">Сохранить</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
 
 <script src="{% static 'java/main.js' %}"></script>
 </body>
