@@ -133,26 +133,40 @@
             color: #333;
         }
 
-        .cat-preview-modal {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 25px;
-            position: relative;
-            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid #e0e0e0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+       .cat-preview-modal {
+        width: 200px;
+        height: 220px;
+        margin: 0 auto 25px;
+        position: relative; /* ← Важно для дочерних absolute */
+        background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid #e0e0e0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        /* Убрали display: flex */
+}
 
-        .cat-preview-modal img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+.cat-preview-modal img {
+    position: relative; /* ← Добавили absolute */
+    left: 0;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.cat-preview-modal #modal-cat-head {
+    top: 0;
+    transform: translateY(-20px) scale(0.8);
+    transform-origin: center bottom;
+    z-index: 100; /* ← Теперь работает */
+}
+
+.cat-preview-modal #modal-cat-body {
+    bottom: 0;
+    transform: translateY(-120px) scale(1);
+    transform-origin: center bottom;
+    z-index: 1; /* ← Теперь работает */
+}
 
         .form-group {
             margin-bottom: 20px;
@@ -190,6 +204,11 @@
             padding-top: 20px;
             border-top: 1px solid #eee;
         }
+
+
+
+
+
         /* Окно загрузки */
         .loading-overlay {
             position: fixed;
@@ -261,10 +280,10 @@
                 padding: 20px;
             }
 
-            .cat-preview-modal {
-                width: 150px;
-                height: 150px;
-            }
+
+
+
+
 
             .modal-footer {
                 flex-direction: column;
@@ -365,8 +384,8 @@
             </div>
 
             <div class="cat-preview-modal">
-                <img id="modal-cat-body" src="" alt="Тело">
                 <img id="modal-cat-head" src="" alt="Голова">
+                <img id="modal-cat-body" src="" alt="Тело">
             </div>
 
             <div id="emailInfo" class="user-email-info" style="display: none;">
