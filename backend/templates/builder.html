@@ -361,7 +361,16 @@
         </section>
     </main>
 
-    <!-- Модальное окно для сохранения кота -->
+        <!-- Уведомления -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Экран загрузки -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Обработка...</div>
+    </div>
+
+    <!-- Модальное окно для сохранения кота (Ваш дизайн) -->
     <div id="saveCatModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
@@ -374,21 +383,26 @@
                 <img id="modal-cat-head" src="" alt="Голова">
             </div>
 
+            <!-- Блок информации об email -->
             <div id="emailInfo" class="user-email-info" style="display: none;">
                 Котик будет отправлен на: <strong id="userEmail"></strong>
             </div>
 
+            <!-- Предупреждение, если email нет -->
+            <div id="emailWarning" class="user-warning" style="display: none;">
+                ⚠️ Email не указан. Котик сохранится в профиле, но письмо не придет.
+            </div>
+
             <form id="saveCatForm" onsubmit="saveCatFormSubmit(event)">
-                <input type="hidden" id="modal-head-index" name="head_index">
-                <input type="hidden" id="modal-body-index" name="body_index">
-                <input type="hidden" id="modal-head-name" name="head_name">
-                <input type="hidden" id="modal-body-name" name="body_name">
+                <!-- ВАЖНО: Мы заменили index на id, так как работаем с базой данных -->
+                <input type="hidden" id="modal-head-id" name="head_id">
+                <input type="hidden" id="modal-body-id" name="body_id">
 
                 <div class="form-group">
                     <label for="cat-name" class="form-label">Название котика *</label>
                     <input type="text" id="cat-name" name="cat_name" class="form-input"
                            placeholder="Например, Пушистик" required
-                           maxlength="100">
+                           maxlength="100" autocomplete="off">
                 </div>
 
                 <div class="modal-footer">
@@ -403,23 +417,13 @@
         </div>
     </div>
 
-    <!-- Окно загрузки -->
-    <div id="loadingOverlay" class="loading-overlay">
-        <div class="spinner"></div>
-        <div class="loading-text" id="loadingText">Сохранение котика...</div>
-    </div>
-
-    <!-- Уведомления -->
-    <div id="notification" class="notification"></div>
-
     <script src="{% static 'java/main.js' %}"></script>
-    <script>
-        // Формируем массивы данных на основе того, что прислал Django
+        <script>
+        // 1. ДАННЫЕ ИЗ БАЗЫ (Django)
         const heads = [
             {% for head in heads %}
                 { url: "{{ head.image.url }}", name: "{{ head.name }}", id: "{{ head.id }}" },
             {% empty %}
-                // Если пусто - ставим заглушку
                 { url: "{% static 'images/head-1.png' %}", name: "Стандартная голова (Демо)", id: null },
             {% endfor %}
         ];
@@ -428,7 +432,6 @@
             {% for body in bodies %}
                 { url: "{{ body.image.url }}", name: "{{ body.name }}", id: "{{ body.id }}" },
             {% empty %}
-                // Если пусто - ставим заглушку
                 { url: "{% static 'images/body-1.png' %}", name: "Стандартное тело (Демо)", id: null },
             {% endfor %}
         ];
@@ -436,122 +439,99 @@
         let currentHeadIndex = 0;
         let currentBodyIndex = 0;
 
-        // Функция обновления отображения
+        // 2. ОБНОВЛЕНИЕ КОНСТРУКТОРА
         function updateCat() {
-            // Обновляем картинки
             const headObj = heads[currentHeadIndex];
             const bodyObj = bodies[currentBodyIndex];
 
             document.getElementById('cat-head').src = headObj.url;
             document.getElementById('cat-body').src = bodyObj.url;
 
-            // Обновляем текст
             document.getElementById('current-head-name').textContent = headObj.name;
             document.getElementById('current-body-name').textContent = bodyObj.name;
 
-            // Обновляем счетчики (1/5)
-            document.getElementById('current-head-count').textContent = `(${currentHeadIndex + 1}/${heads.length})`;
-            document.getElementById('current-body-count').textContent = `(${currentBodyIndex + 1}/${bodies.length})`;
+            // Проверка на существование элементов счетчика (на случай если их нет в HTML)
+            const headCount = document.getElementById('current-head-count');
+            const bodyCount = document.getElementById('current-body-count');
+
+            if (headCount && heads.length) headCount.textContent = `(${currentHeadIndex + 1}/${heads.length})`;
+            if (bodyCount && bodies.length) bodyCount.textContent = `(${currentBodyIndex + 1}/${bodies.length})`;
         }
 
-        // Функции для стрелок
-        function nextHead() {
-            currentHeadIndex = (currentHeadIndex + 1) % heads.length;
-            updateCat();
-        }
+        function nextHead() { currentHeadIndex = (currentHeadIndex + 1) % heads.length; updateCat(); }
+        function prevHead() { currentHeadIndex = (currentHeadIndex - 1 + heads.length) % heads.length; updateCat(); }
+        function nextBody() { currentBodyIndex = (currentBodyIndex + 1) % bodies.length; updateCat(); }
+        function prevBody() { currentBodyIndex = (currentBodyIndex - 1 + bodies.length) % bodies.length; updateCat(); }
 
-        function prevHead() {
-            currentHeadIndex = (currentHeadIndex - 1 + heads.length) % heads.length;
-            updateCat();
-        }
-
-        function nextBody() {
-            currentBodyIndex = (currentBodyIndex + 1) % bodies.length;
-            updateCat();
-        }
-
-        function prevBody() {
-            currentBodyIndex = (currentBodyIndex - 1 + bodies.length) % bodies.length;
-            updateCat();
-        }
-
-        // Новая функция сохранения кота с отправкой на email
+        // 3. ОТКРЫТИЕ МОДАЛЬНОГО ОКНА
         function saveCat() {
-            alert("Скоро здесь будет сохранение котика!");
-            // Проверяем авторизацию
+            // Проверка авторизации
             {% if not user.is_authenticated %}
-                showNotification('Для сохранения котика необходимо войти в систему.', 'error');
-                setTimeout(() => {
-                    window.location.href = "{% url 'login' %}?next={% url 'builder' %}";
-                }, 2000);
+                showNotification('Войдите в систему, чтобы сохранить.', 'error');
                 return;
             {% endif %}
 
-            // Проверяем, есть ли email у пользователя
-            {% if not user.email %}
-                showNotification('Для отправки котика укажите email в вашем профиле.', 'error');
-                setTimeout(() => {
-                    window.location.href = "{% url 'profile' %}";
-                }, 2000);
+            const currentHead = heads[currentHeadIndex];
+            const currentBody = bodies[currentBodyIndex];
+
+            // Проверка на демо-контент
+            if (!currentHead.id || !currentBody.id) {
+                showNotification('Нельзя сохранить демо-котика. Купите детали!', 'warning');
                 return;
-            {% endif %}
+            }
 
-            // Обновляем превью в модальном окне
-            document.getElementById('modal-cat-head').src = heads[headIndex];
-            document.getElementById('modal-cat-body').src = bodies[bodyIndex];
+            // Заполняем превью
+            document.getElementById('modal-cat-head').src = currentHead.url;
+            document.getElementById('modal-cat-body').src = currentBody.url;
 
-            // Заполняем скрытые поля
-            document.getElementById('modal-head-index').value = headIndex;
-            document.getElementById('modal-body-index').value = bodyIndex;
-            document.getElementById('modal-head-name').value = headNames[headIndex];
-            document.getElementById('modal-body-name').value = bodyNames[bodyIndex];
+            // Заполняем скрытые поля ID (Важно для базы данных)
+            document.getElementById('modal-head-id').value = currentHead.id;
+            document.getElementById('modal-body-id').value = currentBody.id;
 
-            // Показываем email пользователя
+            // Имя по умолчанию
+            document.getElementById('cat-name').value = `${currentHead.name} + ${currentBody.name}`;
+
+            // Логика отображения Email
             const emailInfo = document.getElementById('emailInfo');
-            const userEmail = document.getElementById('userEmail');
-            userEmail.textContent = "{{ user.email }}";
-            emailInfo.style.display = 'block';
+            const emailWarning = document.getElementById('emailWarning');
 
-            // Заполняем имя кота по умолчанию
-            document.getElementById('cat-name').value =
-                `${headNames[headIndex]} + ${bodyNames[bodyIndex]}`;
+            {% if user.email %}
+                document.getElementById('userEmail').textContent = "{{ user.email }}";
+                emailInfo.style.display = 'block';
+                emailWarning.style.display = 'none';
+            {% else %}
+                emailInfo.style.display = 'none';
+                emailWarning.style.display = 'block';
+            {% endif %}
 
-            // Показываем модальное окно
+            // Показываем окно
             document.getElementById('saveCatModal').style.display = 'flex';
         }
 
         function closeSaveCatModal() {
             document.getElementById('saveCatModal').style.display = 'none';
-            document.getElementById('saveCatForm').reset();
-            document.getElementById('emailInfo').style.display = 'none';
         }
 
+        // 4. ОТПРАВКА ФОРМЫ
         function saveCatFormSubmit(event) {
             event.preventDefault();
 
-            // Отключаем кнопку отправки
             const submitBtn = document.getElementById('saveCatSubmitBtn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '⏳ Отправка...';
-            submitBtn.disabled = true;
-
-            // Показываем окно загрузки
             const loadingOverlay = document.getElementById('loadingOverlay');
-            const loadingText = document.getElementById('loadingText');
-            loadingText.textContent = 'Сохраняем и отправляем котика...';
+
+            // Блокируем интерфейс
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ Отправка...';
             loadingOverlay.style.display = 'flex';
 
-            // Получаем данные формы
             const formData = new FormData(event.target);
+
             const catData = {
-                head_index: parseInt(formData.get('head_index')),
-                body_index: parseInt(formData.get('body_index')),
-                head_name: formData.get('head_name'),
-                body_name: formData.get('body_name'),
+                head_id: formData.get('head_id'),
+                body_id: formData.get('body_id'),
                 cat_name: formData.get('cat_name')
             };
 
-            // Отправляем на сервер
             fetch('{% url "save_and_send_cat" %}', {
                 method: 'POST',
                 headers: {
@@ -561,85 +541,42 @@
                 },
                 body: JSON.stringify(catData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 loadingOverlay.style.display = 'none';
-                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Отправить';
                 closeSaveCatModal();
 
                 if (data.success) {
-                    if (data.email_sent) {
-                        showNotification(
-                            `✅ Котик "${catData.cat_name}" сохранен и отправлен на ваш email!`,
-                            'success'
-                        );
-
-                        // Сохраняем в localStorage для истории
-                        localStorage.setItem('lastSavedCat', JSON.stringify({
-                            ...catData,
-                            timestamp: new Date().toISOString(),
-                            email_sent: data.email_sent,
-                            email: data.email
-                        }));
-
-                    } else {
-                        showNotification(
-                            `⚠️ Котик "${catData.cat_name}" сохранен, но не отправлен: ${data.warning || 'Ошибка отправки'}`,
-                            'warning'
-                        );
-                    }
-
+                    const type = data.email_sent ? 'success' : 'warning';
+                    showNotification(data.message, type);
                 } else {
-                    // Показываем ошибки валидации
-                    if (data.errors) {
-                        let errorMessage = '';
-                        for (const field in data.errors) {
-                            errorMessage += `${data.errors[field]}\n`;
-                        }
-                        showNotification(errorMessage.trim(), 'error');
-                    } else {
-                        showNotification(data.error || 'Произошла ошибка при сохранении', 'error');
-                    }
+                    showNotification(data.error || 'Ошибка сохранения', 'error');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error(error);
                 loadingOverlay.style.display = 'none';
-                submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-
-                if (error.message.includes('Failed to fetch')) {
-                    showNotification('Ошибка сети. Проверьте подключение и попробуйте еще раз.', 'error');
-                } else {
-                    showNotification('Произошла ошибка. Пожалуйста, попробуйте еще раз.', 'error');
-                }
+                submitBtn.innerHTML = 'Отправить';
+                showNotification('Ошибка соединения с сервером', 'error');
             });
         }
 
-        // Функция для показа уведомлений
+        // Утилиты
         function showNotification(message, type = 'info') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = 'notification ' + type;
-            notification.style.display = 'block';
-
-            // Автоматическое скрытие
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                    notification.style.animation = '';
-                }, 300);
-            }, 5000);
+            const notif = document.getElementById('notification');
+            if (notif) {
+                notif.textContent = message;
+                notif.className = 'notification ' + type;
+                notif.style.display = 'block';
+                setTimeout(() => { notif.style.display = 'none'; }, 5000);
+            } else {
+                alert(message);
+            }
         }
 
-        // Функция для получения CSRF токена
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -655,101 +592,27 @@
             return cookieValue;
         }
 
-        function bindArrows() {
-            document.querySelector('.head-arrow.arrow-btn--left')?.addEventListener('click', prevHead);
-            document.querySelector('.head-arrow.arrow-btn--right')?.addEventListener('click', nextHead);
-            document.querySelector('.body-arrow.arrow-btn--left')?.addEventListener('click', prevBody);
-            document.querySelector('.body-arrow.arrow-btn--right')?.addEventListener('click', nextBody);
-        }
-
         // Инициализация
-        document.addEventListener('DOMContentLoaded', updateCat);
-        bindArrows();
-        updateHead();
-        updateBody();
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCat();
 
-        // Загрузка последнего сохраненного котика
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedCat = localStorage.getItem('lastSavedCat');
-            if (savedCat) {
-                const catData = JSON.parse(savedCat);
-                headIndex = catData.head_index || catData.head || 0;
-                bodyIndex = catData.body_index || catData.body || 0;
-                updateHead();
-                updateBody();
+            // Закрытие по клику вне окна
+            window.onclick = function(event) {
+                const modal = document.getElementById('saveCatModal');
+                if (event.target === modal) closeSaveCatModal();
             }
 
-            // Проверяем email пользователя и показываем предупреждение если его нет
-            {% if user.is_authenticated %}
-                {% if not user.email %}
-                setTimeout(() => {
-                    showNotification('⚠️ Укажите email в профиле для отправки котиков', 'warning');
-                }, 2000);
-                {% endif %}
-            {% endif %}
-
-            // Обновляем текст кнопки если пользователь авторизован
-            const saveCatBtn = document.getElementById('saveCatButton');
-            if (saveCatBtn) {
-                {% if user.is_authenticated %}
-                    {% if user.email %}
-                        saveCatBtn.innerHTML = 'Сохранить и отправить котика';
-                    {% else %}
-                        saveCatBtn.innerHTML = 'Сохранить котика (добавьте email)';
-                    {% endif %}
-                {% else %}
-                    saveCatBtn.innerHTML = 'Сохранить котика (требуется вход)';
-                {% endif %}
-            }
-        });
-
-        // Закрытие модального окна при клике вне его
-        document.addEventListener('click', function(event) {
-            const modal = document.getElementById('saveCatModal');
-            if (event.target === modal) {
-                closeSaveCatModal();
-            }
-        });
-
-        // Закрытие модального окна при нажатии Escape
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeSaveCatModal();
-            }
-        });
-
-        // Горячие клавиши для переключения головы/тела
-        document.addEventListener('keydown', function(event) {
-            // Стрелка влево/вправо для головы
-            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            // Клавиши
+            document.addEventListener('keydown', function(event) {
+                if (document.getElementById('saveCatModal').style.display === 'flex') {
+                    if (event.key === 'Escape') closeSaveCatModal();
+                    return;
+                }
                 if (event.key === 'ArrowLeft') prevHead();
                 if (event.key === 'ArrowRight') nextHead();
-                event.preventDefault();
-            }
-
-            // Стрелка вверх/вниз для тела
-            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
                 if (event.key === 'ArrowUp') prevBody();
                 if (event.key === 'ArrowDown') nextBody();
-                event.preventDefault();
-            }
-
-            // Enter для сохранения
-            if (event.key === 'Enter' && !document.getElementById('saveCatModal').style.display) {
-                saveCat();
-                event.preventDefault();
-            }
-        });
-
-        // Обработка ошибок загрузки изображений
-        document.getElementById('cat-head').addEventListener('error', function() {
-            console.error('Ошибка загрузки головы');
-            this.src = "{% static 'images/head-1.png' %}";
-        });
-
-        document.getElementById('cat-body').addEventListener('error', function() {
-            console.error('Ошибка загрузки тела');
-            this.src = "{% static 'images/body-1.png' %}";
+            });
         });
     </script>
 </body>
